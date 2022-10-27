@@ -1,7 +1,7 @@
 '''
 Author: Tianle Zhu
 Date: 2022-10-27 12:07:34
-LastEditTime: 2022-10-27 14:16:00
+LastEditTime: 2022-10-27 14:20:59
 LastEditors: Tianle Zhu
 FilePath: \AI_Game_Agent\investment.py
 
@@ -18,14 +18,9 @@ Include all investment obejct in the game Manila
 '''
 
 
-import string
-
-
 class ship():
     '''
     ship in the game Manila
-    do not access the attributes directly
-    you can only access/set the attributes using provided methods
     '''
     def __init__(self,name,cost_ls,money):
         '''
@@ -50,7 +45,7 @@ class ship():
         self.available = True
         self.investors = []
         
-    # methods you can call
+    # methods allowed
     
     def get_availability(self):
         return self.available
@@ -74,5 +69,32 @@ class ship():
         if len(self.investors) == len(self.cost):
             self.available = False
     
-    # methods you should not call
+    # methods not allowed
+    
+class port():
+    '''
+    port in the game Manila
+    '''
+    def __init__(self,name,cost_ls,money):
+        '''
+        instantiate with cost and potential reward
+        -- cost_ls : int
+        -- money : int
+        '''
+        
+        self.name = str(name) # name of the ship
+        # check for type error
+        if type(cost_ls) != list:
+            raise TypeError
+        for cost in cost_ls:
+            if type(cost) != int:
+                raise TypeError
+        if type(money) != int:
+            raise TypeError
+        
+        self.cost = cost_ls
+        self.money = money
+        self.position = 3
+        self.available = True
+        self.investors = []
         
