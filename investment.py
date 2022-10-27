@@ -1,7 +1,7 @@
 '''
 Author: Tianle Zhu
 Date: 2022-10-27 12:07:34
-LastEditTime: 2022-10-27 14:20:59
+LastEditTime: 2022-10-27 14:45:44
 LastEditors: Tianle Zhu
 FilePath: \AI_Game_Agent\investment.py
 
@@ -22,11 +22,11 @@ class ship():
     '''
     ship in the game Manila
     '''
-    def __init__(self,name,cost_ls,money):
+    def __init__(self,name,cost_ls,payback):
         '''
         instantiate with cost and potential reward
         -- cost_ls : [,,,]
-        -- money : int
+        -- payback : int
         '''
         
         self.name = str(name) # name of the ship
@@ -36,17 +36,20 @@ class ship():
         for cost in cost_ls:
             if type(cost) != int:
                 raise TypeError
-        if type(money) != int:
+        if type(payback) != int:
             raise TypeError
         
         self.cost = cost_ls
-        self.money = money
+        self.payback = payback
         self.position = 3
         self.available = True
         self.investors = []
         
     # methods allowed
     
+    def get_position(self):
+        return self.position
+
     def get_availability(self):
         return self.available
     
@@ -54,7 +57,7 @@ class ship():
         return self.investors
     
     def get_payback(self):
-        return self.money
+        return self.payback
     
     def get_cost(self):
         # return the current cost to invest this ship
@@ -62,12 +65,19 @@ class ship():
         return self.cost[idx]
     
     def invest(self,player):
+        if self.get_availability == False:
+            print("invalide investment, unavailable ship")
+            return 
         if self.get_cost > player.get_money():
             print("invalid investment, insufficient fund!")
             return
-        self.investors.append(player.get_name())
+        self.investors.append(player)
         if len(self.investors) == len(self.cost):
             self.available = False
+    
+    def move(self,steps):
+        # move the ship steps further
+        self.position += steps
     
     # methods not allowed
     
@@ -75,26 +85,90 @@ class port():
     '''
     port in the game Manila
     '''
-    def __init__(self,name,cost_ls,money):
+    def __init__(self,name,cost,payback):
         '''
         instantiate with cost and potential reward
-        -- cost_ls : int
+        -- cost : int
         -- money : int
         '''
         
         self.name = str(name) # name of the ship
         # check for type error
-        if type(cost_ls) != list:
+        if type(cost) != int:
             raise TypeError
-        for cost in cost_ls:
-            if type(cost) != int:
-                raise TypeError
-        if type(money) != int:
+        if type(payback) != int:
             raise TypeError
         
-        self.cost = cost_ls
-        self.money = money
-        self.position = 3
+        self.cost = cost
+        self.payback = payback
         self.available = True
-        self.investors = []
+        self.investors = None
+     
+    # methods allowed 
+    def get_availability(self):
+        return self.available
+    
+    def get_investors(self):
+        return self.investors
+    
+    def get_payback(self):
+        return self.payback
+    
+    def get_cost(self):
+        return self.cost
+    
+    def invest(self,player):
+        if self.available == False:
+            print("invalid investment, unavailable port")
+            return
+        if self.get_cost > player.get_money():
+            print("invalid investment, insufficient fund!")
+            return
+        self.investors=player
+        self.available = False
         
+class shipyard():
+    '''
+    shipyard in the game Manila
+    '''
+    def __init__(self,name,cost,payback):
+        '''
+        instantiate with cost and potential reward
+        -- cost : int
+        -- money : int
+        '''
+        
+        self.name = str(name) # name of the ship
+        # check for type error
+        if type(cost) != int:
+            raise TypeError
+        if type(payback) != int:
+            raise TypeError
+        
+        self.cost = cost
+        self.payback = payback
+        self.available = True
+        self.investors = None
+     
+    # methods allowed 
+    def get_availability(self):
+        return self.available
+    
+    def get_investors(self):
+        return self.investors
+    
+    def get_payback(self):
+        return self.payback
+    
+    def get_cost(self):
+        return self.cost
+    
+    def invest(self,player):
+        if self.available == False:
+            print("invalid investment, unavailable shipyayd")
+            return
+        if self.get_cost > player.get_money():
+            print("invalid investment, insufficient fund!")
+            return
+        self.investors=player
+        self.available = False
