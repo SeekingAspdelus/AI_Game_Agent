@@ -1,7 +1,7 @@
 '''
 LastEditors: Please set LastEditors
 Date: 2022-10-27 12:19:15
-LastEditTime: 2022-11-01 20:47:22
+LastEditTime: 2022-11-01 22:00:50
 FilePath: \AI_Game_Agent\play.py
 
 All the method in this file is used to control the player's action.
@@ -10,10 +10,12 @@ method may be called in this file:
     get_name()
     get_money()
     get_color()
-    get_action()
     invest()
     status()
 '''
+
+from ast import Break
+
 
 class Player():
     def __init__(self, name, money, color, game):
@@ -38,29 +40,6 @@ class Player():
 
     def get_color(self):
         return self.color
-
-    def get_action(self):
-        '''
-        get the available action for the player
-        objects in the list are investment objects
-        available_action has available and affordable behavior in it
-        available_action = [invest1, invest2, ...]
-        '''
-        self.available_action = []
-        for i in self.game.port_ls:
-            if i.get_availability():
-                self.available_action.append(i)
-        for i in self.game.shipyard_ls:
-            if i.get_availability():
-                self.available_action.append(i)
-        for i in self.game.ship_ls:
-            if i.get_availability():
-                self.available_action.append(i)
-        money = self.money
-        for i in self.available_action:
-            if i.get_cost() > money:
-                self.available_action.remove(i)
-        return self.available_action
 
     def invest(self, action):
         ''''
@@ -105,8 +84,16 @@ class Player():
         for i in self.available_action:
             print(f'{i.name} with cost {i.get_cost()}')
         print('Please specify the action you want to take')
-        action = input()
-        self.invest(action)
+        action_input = input()
+        action_next = ''
+        for k in range(len(self.game.action_ls)):
+            if(self.game.action_ls[k].name == action_input):
+                action_next = self.game.action_ls[k]
+                print('I find it')
+                Break
+            else:
+                continue
+        self.invest(action_next)
 
     def conclude(self):
         for i in self.behavior:
@@ -126,3 +113,26 @@ class Player():
 
     def skip(self):
         print('You have skipped your turn')
+
+    def get_action(self):
+        '''
+        get the available action for the player
+        objects in the list are investment objects
+        available_action has available and affordable behavior in it
+        available_action = [invest1, invest2, ...]
+        '''
+        self.available_action = []
+        for i in self.game.port_ls:
+            if i.get_availability():
+                self.available_action.append(i)
+        for i in self.game.shipyard_ls:
+            if i.get_availability():
+                self.available_action.append(i)
+        for i in self.game.ship_ls:
+            if i.get_availability():
+                self.available_action.append(i)
+        money = self.money
+        for i in self.available_action:
+            if i.get_cost() > money:
+                self.available_action.remove(i)
+        return self.available_action

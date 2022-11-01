@@ -1,8 +1,8 @@
 '''
 Author: Tianle Zhu
 Date: 2022-10-27 12:07:34
-LastEditTime: 2022-10-27 14:45:44
-LastEditors: Tianle Zhu
+LastEditTime: 2022-11-01 22:03:32
+LastEditors: Please set LastEditors
 FilePath: \AI_Game_Agent\investment.py
 
 Include all investment obejct in the game Manila
@@ -68,7 +68,7 @@ class ship():
         if self.get_availability == False:
             print("invalide investment, unavailable ship")
             return 
-        if self.get_cost > player.get_money():
+        if self.get_cost() > player.get_money():
             print("invalid investment, insufficient fund!")
             return
         self.investors.append(player)
