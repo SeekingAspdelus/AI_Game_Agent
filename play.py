@@ -1,8 +1,13 @@
 '''
 LastEditors: Please set LastEditors
 Date: 2022-10-27 12:19:15
+<<<<<<< HEAD
 LastEditTime: 2022-11-01 20:34:26
 FilePath: \AI_Game_Agent\player.py
+=======
+LastEditTime: 2022-11-01 20:36:46
+FilePath: \AI_Game_Agent\play.py
+>>>>>>> 4ded9e5e4a1571f291112544f82e1683cedd2d5f
 
 All the method in this file is used to control the player's action.
 method may be called in this file:
@@ -15,13 +20,13 @@ method may be called in this file:
     status()
 '''
 
-
 class Player():
-    def __init__(self, name, money, color):
+    def __init__(self, name, money, color, game):
         self.name = name # player's name string
         self.money = money # in Peso int
         self.color = color # player's color
         self.behavior = [] #player's used behavior object
+        self.game = game # game
 
     def __str__(self):
         return f'{self.name} has {self.money} Peso, his/her color is {self.color}'  
@@ -47,13 +52,13 @@ class Player():
         available_action = [invest1, invest2, ...]
         '''
         self.available_action = []
-        for i in game.port:
+        for i in self.game.port:
             if i.get_availability():
                 self.available_action.append(i)
-        for i in game.shipyard:
+        for i in self.game.shipyard:
             if i.get_availability():
                 self.available_action.append(i)
-        for i in game.ship:
+        for i in self.game.ship:
             if i.get_availability():
                 self.available_action.append(i)
         money = self.money
