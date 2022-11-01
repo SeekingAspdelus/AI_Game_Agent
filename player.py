@@ -1,7 +1,7 @@
 '''
 LastEditors: SeekingAspdelus jz332@duke.edu
 Date: 2022-10-27 12:19:15
-LastEditTime: 2022-11-01 12:59:24
+LastEditTime: 2022-11-01 14:07:33
 FilePath: \AI_Game_Agent\player.py
 
 All the method in this file is used to control the player's action.
@@ -18,16 +18,13 @@ method may be called in this file:
 
 class Player():
     def __init__(self, name, money, color):
-        self.name = name # player's name
+        self.name = name # player's name string
         self.money = money # in Peso int
         self.color = color # player's color
-        self.behavior = [] #player's used behavior
+        self.behavior = [] #player's used behavior object
 
     def __str__(self):
         return f'{self.name} has {self.money} Peso, his/her color is {self.color}'  
-
-    def add_behavior(self, behavior):
-        self.behavior.append(behavior)
 
     def get_behavior(self):
         return self.behavior
@@ -37,9 +34,6 @@ class Player():
 
     def get_money(self):
         return self.money
-
-    def set_money(self, money):
-        self.money = money
 
     def get_color(self):
         return self.color
@@ -74,13 +68,32 @@ class Player():
             self.money -= action.get_cost()
             action.invest(self.name)
             print(f'You have succeeded in investing  + {action.name}')
+            return True
         else:
             print('Invalid action, please specify an action from the list')
-
-    def profit(self, money):
-        self.money += money
+            return False
 
     def status(self):
         print(f'You are {self.name}, your color is {self.color}, you have {self.money} Peso')
         for i in self.behavior:
             print(f'You have invested in {i.name}')
+
+    def my_turn(self):
+        print(f'Your turn, {self.name}')
+        self.get_action()
+        print('You can invest in:')
+        for i in self.available_action:
+            print(f'{i.name} with cost {i.get_cost()}')
+        print('Please specify the action you want to take')
+        action = input()
+        self.invest(action)
+
+    #should not be called
+    def set_money(self, money):
+        self.money = money
+
+    def add_behavior(self, behavior):
+        self.behavior.append(behavior)
+
+    def profit(self, money):
+        self.money += money
