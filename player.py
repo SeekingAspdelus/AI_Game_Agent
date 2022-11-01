@@ -1,7 +1,7 @@
 '''
 LastEditors: SeekingAspdelus jz332@duke.edu
 Date: 2022-10-27 12:19:15
-LastEditTime: 2022-11-01 12:17:17
+LastEditTime: 2022-11-01 12:59:24
 FilePath: \AI_Game_Agent\player.py
 
 All the method in this file is used to control the player's action.
@@ -16,11 +16,9 @@ method may be called in this file:
 '''
 
 
-import pandas
-
-class Player:
+class Player():
     def __init__(self, name, money, color):
-        self.name = name # player's name 
+        self.name = name # player's name
         self.money = money # in Peso int
         self.color = color # player's color
         self.behavior = [] #player's used behavior
@@ -28,7 +26,7 @@ class Player:
     def __str__(self):
         return f'{self.name} has {self.money} Peso, his/her color is {self.color}'  
 
-    def add_behavior(self, behavior): 
+    def add_behavior(self, behavior):
         self.behavior.append(behavior)
 
     def get_behavior(self):
@@ -47,7 +45,26 @@ class Player:
         return self.color
 
     def get_action(self):
+        '''
+        get the available action for the player
+        objects in the list are investment objects
+        available_action has available and affordable behavior in it
+        available_action = [invest1, invest2, ...]
+        '''
         self.available_action = []
+        for i in game.port:
+            if i.get_availability():
+                self.available_action.append(i)
+        for i in game.shipyard:
+            if i.get_availability():
+                self.available_action.append(i)
+        for i in game.ship:
+            if i.get_availability():
+                self.available_action.append(i)
+        money = self.money
+        for i in self.available_action:
+            if i.get_cost() > money:
+                self.available_action.remove(i)
         return self.available_action
 
     def invest(self, action):
@@ -66,4 +83,4 @@ class Player:
     def status(self):
         print(f'You are {self.name}, your color is {self.color}, you have {self.money} Peso')
         for i in self.behavior:
-            print(f'You have invested in {i.name} for this turn')
+            print(f'You have invested in {i.name}')
