@@ -1,7 +1,7 @@
 '''
 Author: Tianle Zhu
 Date: 2022-10-27 12:07:34
-LastEditTime: 2022-11-01 22:49:20
+LastEditTime: 2022-11-01 23:18:46
 LastEditors: Please set LastEditors
 FilePath: \AI_Game_Agent\investment.py
 
@@ -103,7 +103,7 @@ class port():
         self.cost = cost
         self.payback = payback
         self.available = True
-        self.investors = None
+        self.investors = []
      
     # methods allowed 
     def get_availability(self):
@@ -125,7 +125,7 @@ class port():
         if self.get_cost() > player.get_money():
             print("invalid investment, insufficient fund!")
             return
-        self.investors=player
+        self.investors.append(player)
         self.available = False
         
 class shipyard():
@@ -149,7 +149,7 @@ class shipyard():
         self.cost = cost
         self.payback = payback
         self.available = True
-        self.investors = None
+        self.investors = []
      
     # methods allowed 
     def get_availability(self):
@@ -171,5 +171,5 @@ class shipyard():
         if self.get_cost() > player.get_money():
             print("invalid investment, insufficient fund!")
             return
-        self.investors=player
+        self.investors.append(player)
         self.available = False

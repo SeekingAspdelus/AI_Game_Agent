@@ -1,7 +1,7 @@
 '''
 Author: Yutong Ren
 Date: 2022-11-01 13:17:09
-LastEditTime: 2022-11-01 23:00:58
+LastEditTime: 2022-11-02 00:00:43
 LastEditors: Please set LastEditors
 Description: In User Settings Edit
 FilePath: \Manila\AI_Game_Agent-main\game.py
@@ -93,27 +93,73 @@ class Game():
                 self.ship_ls[2].position += dice_Ship3
             print(self.ship_ls[2].position)
 
-        if(self.ship_ls[0].position > 13):
-            ave_ship1_payback = self.ship_ls[0].payback/len(self.ship_ls[0].investors)
-            for j in range(len(self.ship_ls[0].investors)):
-                self.ship_ls[0].investors[j].money += ave_ship1_payback
+        #count how many ships have reached the port
+        for z in range(3):
+            ship_to_port = 0
+            if(self.ship_ls[z].position > 13):
+                ship_to_port += 1
+
+
+        #no ship reach the port
+        if(ship_to_port == 0):
+            for m in range(3):
+                if(self.shipyard_ls[m].available == False):
+                    self.shipyard_ls[m].investors[0].money += self.shipyard_ls[m].payback
+        
+        #one ship reach the port
+        elif(ship_to_port == 1):
+            for k in range(3):
+                if(self.ship_ls[k].position > 13):
+                    ave_ship_payback = self.ship_ls[k].payback/len(self.ship_ls[k].investors)
+                    for j in range(len(self.ship_ls[k].investors)):
+                        self.ship_ls[0].investors[j].money += ave_ship_payback
+            #calculate the port payback
+            if(self.port_ls[0].available == False):
+                self.port_ls[0].investors[0].money += self.port_ls[0].payback
+            
+            #calculate the shipyard payback
+            for m in range(2):
+                if(self.shipyard_ls[m].available == False):
+                    self.shipyard_ls[m].investors[0] += self.shipyard_ls[m].payback
+
+        
+        #two ships reach the port
+        elif(ship_to_port == 2):
+            for k in range(3):
+                if(self.ship_ls[k].position > 13):
+                    ave_ship_payback = self.ship_ls[k].payback/len(self.ship_ls[k].investors)
+                    for j in range(len(self.ship_ls[k].investors)):
+                        self.ship_ls[0].investors[j].money += ave_ship_payback
+            #calculate the port payback
+            for m in range(2):
+                if(self.port_ls[m].available == False):
+                    self.port_ls[m].investors[0] += self.port_ls[m].payback
+            
+            #calculate the shipyard payback
+            if(self.shipyard_ls[0].available == False):
+                self.shipyard_ls[0].investors[0].money += self.shipyard_ls[0].payback
+
+        
+        #three ships reach the port
+        else:
+            for k in range(3):
+                if(self.ship_ls[k].position > 13):
+                    ave_ship_payback = self.ship_ls[k].payback/len(self.ship_ls[k].investors)
+                    for j in range(len(self.ship_ls[k].investors)):
+                        self.ship_ls[0].investors[j].money += ave_ship_payback
+            #calculate the port payback
+            for m in range(3):
+                if(self.port_ls[m].available == False):
+                    self.port_ls[m].investors[0].money += self.port_ls[m].payback
+
+        
+        print("Player1's final money:", self.player_ls[0].money)
+        print("Player2's final money:", self.player_ls[1].money)
+        print("Player3's final money:", self.player_ls[2].money)
+
             
 
-            
-        
-        
-
-        
-
-
-       
-        
-        
-
-
-        
-        
-            
+    
 test = Game()
 test.start()
         
