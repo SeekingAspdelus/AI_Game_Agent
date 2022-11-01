@@ -1,13 +1,13 @@
 '''
 Author: Yutong Ren
 Date: 2022-11-01 13:17:09
-LastEditTime: 2022-11-01 20:10:50
+LastEditTime: 2022-11-01 20:34:04
 LastEditors: Please set LastEditors
 Description: In User Settings Edit
 FilePath: \Manila\AI_Game_Agent-main\game.py
 '''
 
-import player
+import play
 
 import investment
 
@@ -18,9 +18,9 @@ class Game():
 
     def __init__(self):
 
-        player1 = player.Player("Player1", 30, None)
-        player2 = player.Player("Player2", 30, None)
-        player3 = player.Player("Player3", 30, None) 
+        player1 = play.Player("Player1", 30, None)
+        player2 = play.Player("Player2", 30, None)
+        player3 = play.Player("Player3", 30, None) 
 
         ship1 = investment.ship("Ship1", [2,3,4], 3)
         ship2 = investment.ship("Ship2", [3,3,3], 4)
@@ -53,8 +53,8 @@ class Game():
     def start(self):
         print(self.player_ls[0].get_action())
         
-test = game()
-test.start
+test = Game()
+test.start()
         
         
 
