@@ -1,7 +1,7 @@
 '''
-LastEditors: SeekingAspdelus jz332@duke.edu
+LastEditors: Please set LastEditors
 Date: 2022-10-27 12:19:15
-LastEditTime: 2022-11-01 14:59:11
+LastEditTime: 2022-11-01 20:34:26
 FilePath: \AI_Game_Agent\player.py
 
 All the method in this file is used to control the player's action.
