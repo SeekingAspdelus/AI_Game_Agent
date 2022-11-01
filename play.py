@@ -1,7 +1,7 @@
 '''
 LastEditors: Please set LastEditors
 Date: 2022-10-27 12:19:15
-LastEditTime: 2022-11-01 22:00:50
+LastEditTime: 2022-11-01 22:13:57
 FilePath: \AI_Game_Agent\play.py
 
 All the method in this file is used to control the player's action.
@@ -94,6 +94,7 @@ class Player():
             else:
                 continue
         self.invest(action_next)
+        return action_next
 
     def conclude(self):
         for i in self.behavior:
