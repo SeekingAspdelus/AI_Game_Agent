@@ -1,7 +1,7 @@
 '''
-LastEditors: SeekingAspdelus jz332@duke.edu
+LastEditors: Please set LastEditors
 Date: 2022-10-27 12:19:15
-LastEditTime: 2022-11-01 20:45:17
+LastEditTime: 2022-11-01 20:47:22
 FilePath: \AI_Game_Agent\play.py
 
 All the method in this file is used to control the player's action.
@@ -47,13 +47,13 @@ class Player():
         available_action = [invest1, invest2, ...]
         '''
         self.available_action = []
-        for i in self.game.port:
+        for i in self.game.port_ls:
             if i.get_availability():
                 self.available_action.append(i)
-        for i in self.game.shipyard:
+        for i in self.game.shipyard_ls:
             if i.get_availability():
                 self.available_action.append(i)
-        for i in self.game.ship:
+        for i in self.game.ship_ls:
             if i.get_availability():
                 self.available_action.append(i)
         money = self.money
