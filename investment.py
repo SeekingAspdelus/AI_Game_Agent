@@ -1,17 +1,17 @@
 '''
 Author: Tianle Zhu
 Date: 2022-10-27 12:07:34
-LastEditTime: 2022-11-03 13:38:19
+LastEditTime: 2022-11-03 14:35:15
 LastEditors: Tianle Zhu
 FilePath: \AI_Game_Agent\investment.py
 
 Include all investment obejct in the game Manila
     generic methods:
-    -- get_availability
-    -- get_investors
-    -- get_payback
-    -- get_cost
-    -- invest
+    -- get_availability()
+    -- get_investors()
+    -- get_payback()
+    -- get_cost()
+    -- invest(player)
     
 !! do not access the attributes directly !!
 !!! you can only access/set the attributes using provided methods !!!
@@ -175,3 +175,24 @@ class shipyard():
         self.available = False
         
         
+class skip():
+    '''
+    agents can always skip their turn
+    '''
+    def __init__(self):
+        pass
+    
+    def get_availability(self):
+        return True
+    
+    def investors(self):
+        return None
+    
+    def get_payback(self):
+        return 0
+    
+    def get_cost(self):
+        return 0
+    
+    def invest(self,player):
+        return
