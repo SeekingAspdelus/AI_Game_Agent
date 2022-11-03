@@ -1,7 +1,7 @@
 '''
 LastEditors: SeekingAspdelus jz332@duke.edu
 Date: 2022-10-27 12:19:15
-LastEditTime: 2022-11-03 13:35:01
+LastEditTime: 2022-11-03 13:43:07
 FilePath: \AI_Game_Agent\play.py
 
 All the method in this file is used to control the player's action.
@@ -26,7 +26,7 @@ class Player():
         self.game = game # game
 
     def __str__(self):
-        return f'{self.name} has {self.money} Peso, his/her color is {self.color}'  
+        return f'{self.name} has {self.money} Peso, his/her color is {self.color}'
 
     def get_behavior(self):
         #What you have done in this game
