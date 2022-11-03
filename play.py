@@ -1,7 +1,7 @@
 '''
 LastEditors: SeekingAspdelus jz332@duke.edu
 Date: 2022-10-27 12:19:15
-LastEditTime: 2022-11-03 14:12:10
+LastEditTime: 2022-11-03 14:14:00
 FilePath: \AI_Game_Agent\play.py
 
 All the method in this file is used to control the player's action.
@@ -83,7 +83,7 @@ class Player():
         print('You can invest in:')
         for i in self.available_action:
             if i == 'Skip':
-                print('You can also choose to skip yhis turn')
+                print('You can also choose to skip this turn')
             else:
                 print(f'{i.name} with cost {i.get_cost()}')
         print('Please specify the action you want to take')
