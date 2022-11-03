@@ -1,8 +1,8 @@
 '''
 Author: Tianle Zhu
 Date: 2022-10-27 12:07:34
-LastEditTime: 2022-11-01 23:18:46
-LastEditors: Please set LastEditors
+LastEditTime: 2022-11-03 13:38:19
+LastEditors: Tianle Zhu
 FilePath: \AI_Game_Agent\investment.py
 
 Include all investment obejct in the game Manila
@@ -173,3 +173,5 @@ class shipyard():
             return
         self.investors.append(player)
         self.available = False
+        
+        
