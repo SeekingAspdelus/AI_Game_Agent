@@ -1,8 +1,9 @@
 '''
 LastEditors: Please set LastEditors
 Date: 2022-10-27 12:19:15
-LastEditTime: 2022-11-03 13:13:23
+LastEditTime: 2022-11-03 13:59:38
 FilePath: \AI_Game_Agent\play.py
+
 All the method in this file is used to control the player's action.
 method may be called in this file:
     get_behavior()
@@ -25,7 +26,7 @@ class Player():
         self.game = game # game
 
     def __str__(self):
-        return f'{self.name} has {self.money} Peso, his/her color is {self.color}'  
+        return f'{self.name} has {self.money} Peso, his/her color is {self.color}'
 
     def get_behavior(self):
         #What you have done in this game
@@ -52,7 +53,7 @@ class Player():
             print('Sorry, but you have no available_action')
             self.skip()
             return True
-        if action == 'skip':
+        if action == 'Skip':
             self.skip()
             return True
         if action in self.available_action:
@@ -81,7 +82,10 @@ class Player():
         self.get_action()
         print('You can invest in:')
         for i in self.available_action:
-            print(f'{i.name} with cost {i.get_cost()}')
+            if i == 'Skip':
+                print('You can also choose to skip this turn')
+            else:
+                print(f'{i.name} with cost {i.get_cost()}')
         print('Please specify the action you want to take')
         while True:
             action_input = input()
@@ -89,6 +93,9 @@ class Player():
             for k in range(len(self.game.action_ls)):
                 if(self.game.action_ls[k].name == action_input):
                     action_next = self.game.action_ls[k]
+                    Break
+                elif action_input == 'Skip':
+                    action_next = 'Skip'
                     Break
                 else:
                     continue
@@ -137,4 +144,5 @@ class Player():
         for i in self.available_action:
             if i.get_cost() > money:
                 self.available_action.remove(i)
+        self.available_action.append('Skip')
         return self.available_action
