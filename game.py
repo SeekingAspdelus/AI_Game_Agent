@@ -1,7 +1,7 @@
 '''
 Author: Yutong Ren
 Date: 2022-11-01 13:17:09
-LastEditTime: 2022-11-02 00:00:43
+LastEditTime: 2022-11-03 14:02:55
 LastEditors: Please set LastEditors
 Description: In User Settings Edit
 FilePath: \Manila\AI_Game_Agent-main\game.py
@@ -59,43 +59,40 @@ class Game():
             #加一个判定，如果选择的action不属于my_turn所给的，那就要继续输入
             #player1's turn to play
             action_taken = self.player_ls[0].my_turn()
-            action_taken.available = False
             print("Player1 has current money:", test.player_ls[0].money)
 
             #player2's turn to play
             action_taken = self.player_ls[1].my_turn()
-            action_taken.available = False
             print("Player2 has current money:", test.player_ls[1].money)
 
             #player3's turn to play
             action_taken = self.player_ls[2].my_turn()
-            action_taken.available = False
             print("Player3 has current money:", test.player_ls[2].money)
 
             #roll ship1's dice and update the position
-            dice_Ship1_str = str(input())
-            if(dice_Ship1_str == "dice1"):
-                dice_Ship1 = random.randint(1,6)
-                self.ship_ls[0].position += dice_Ship1
-            print(self.ship_ls[0].position)
+            #dice_Ship1_str = str(input())
+            #if(dice_Ship1_str == "dice1"):
+            dice_Ship1 = random.randint(1,6)
+            self.ship_ls[0].position += dice_Ship1
+            print(f"Ship1's current position {self.ship_ls[0].position}")
 
             #roll ship2's dice and update the position
-            dice_Ship2_str = str(input())
-            if(dice_Ship2_str == "dice2"):
-                dice_Ship2 = random.randint(1,6)
-                self.ship_ls[1].position += dice_Ship2
-            print(self.ship_ls[1].position)
+            #dice_Ship2_str = str(input())
+            #if(dice_Ship2_str == "dice2"):
+            dice_Ship2 = random.randint(1,6)
+            self.ship_ls[1].position += dice_Ship2
+            print(f"Ship2's current position {self.ship_ls[1].position}")
 
             #roll ship3's dice and update the position
-            dice_Ship3_str = str(input())
-            if(dice_Ship3_str == "dice3"):
-                dice_Ship3= random.randint(1,6)
-                self.ship_ls[2].position += dice_Ship3
-            print(self.ship_ls[2].position)
+            #dice_Ship3_str = str(input())
+            #if(dice_Ship3_str == "dice3"):
+            dice_Ship3= random.randint(1,6)
+            self.ship_ls[2].position += dice_Ship3
+            print(f"Ship3's current position {self.ship_ls[2].position}\n\n")
 
         #count how many ships have reached the port
+        ship_to_port = 0
         for z in range(3):
-            ship_to_port = 0
             if(self.ship_ls[z].position > 13):
                 ship_to_port += 1
 
@@ -107,7 +104,7 @@ class Game():
                     self.shipyard_ls[m].investors[0].money += self.shipyard_ls[m].payback
         
         #one ship reach the port
-        elif(ship_to_port == 1):
+        if(ship_to_port == 1):
             for k in range(3):
                 if(self.ship_ls[k].position > 13):
                     ave_ship_payback = self.ship_ls[k].payback/len(self.ship_ls[k].investors)
@@ -120,11 +117,11 @@ class Game():
             #calculate the shipyard payback
             for m in range(2):
                 if(self.shipyard_ls[m].available == False):
-                    self.shipyard_ls[m].investors[0] += self.shipyard_ls[m].payback
+                    self.shipyard_ls[m].investors[0].money += self.shipyard_ls[m].payback
 
         
         #two ships reach the port
-        elif(ship_to_port == 2):
+        if(ship_to_port == 2):
             for k in range(3):
                 if(self.ship_ls[k].position > 13):
                     ave_ship_payback = self.ship_ls[k].payback/len(self.ship_ls[k].investors)
@@ -141,7 +138,7 @@ class Game():
 
         
         #three ships reach the port
-        else:
+        if(ship_to_port == 3):
             for k in range(3):
                 if(self.ship_ls[k].position > 13):
                     ave_ship_payback = self.ship_ls[k].payback/len(self.ship_ls[k].investors)
@@ -157,9 +154,6 @@ class Game():
         print("Player2's final money:", self.player_ls[1].money)
         print("Player3's final money:", self.player_ls[2].money)
 
-            
-
-    
 test = Game()
 test.start()
         
