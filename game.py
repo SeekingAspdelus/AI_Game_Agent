@@ -1,10 +1,10 @@
 '''
 Author: Yutong Ren
 Date: 2022-11-01 13:17:09
-LastEditTime: 2022-11-03 14:02:55
-LastEditors: Please set LastEditors
+LastEditTime: 2022-11-03 14:26:25
+LastEditors: SeekingAspdelus jz332@duke.edu
 Description: In User Settings Edit
-FilePath: \Manila\AI_Game_Agent-main\game.py
+FilePath: \AI_Game_Agent\game.py
 '''
 import random
 
@@ -109,7 +109,7 @@ class Game():
                 if(self.ship_ls[k].position > 13):
                     ave_ship_payback = self.ship_ls[k].payback/len(self.ship_ls[k].investors)
                     for j in range(len(self.ship_ls[k].investors)):
-                        self.ship_ls[0].investors[j].money += ave_ship_payback
+                        self.ship_ls[k].investors[j].money += ave_ship_payback
             #calculate the port payback
             if(self.port_ls[0].available == False):
                 self.port_ls[0].investors[0].money += self.port_ls[0].payback
@@ -126,7 +126,7 @@ class Game():
                 if(self.ship_ls[k].position > 13):
                     ave_ship_payback = self.ship_ls[k].payback/len(self.ship_ls[k].investors)
                     for j in range(len(self.ship_ls[k].investors)):
-                        self.ship_ls[0].investors[j].money += ave_ship_payback
+                        self.ship_ls[k].investors[j].money += ave_ship_payback
             #calculate the port payback
             for m in range(2):
                 if(self.port_ls[m].available == False):
@@ -143,7 +143,7 @@ class Game():
                 if(self.ship_ls[k].position > 13):
                     ave_ship_payback = self.ship_ls[k].payback/len(self.ship_ls[k].investors)
                     for j in range(len(self.ship_ls[k].investors)):
-                        self.ship_ls[0].investors[j].money += ave_ship_payback
+                        self.ship_ls[k].investors[j].money += ave_ship_payback
             #calculate the port payback
             for m in range(3):
                 if(self.port_ls[m].available == False):
