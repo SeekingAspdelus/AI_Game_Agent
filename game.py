@@ -1,7 +1,7 @@
 '''
 Author: Yutong Ren
 Date: 2022-11-01 13:17:09
-LastEditTime: 2022-11-03 13:56:35
+LastEditTime: 2022-11-03 14:02:55
 LastEditors: Please set LastEditors
 Description: In User Settings Edit
 FilePath: \Manila\AI_Game_Agent-main\game.py
@@ -88,7 +88,7 @@ class Game():
             #if(dice_Ship3_str == "dice3"):
             dice_Ship3= random.randint(1,6)
             self.ship_ls[2].position += dice_Ship3
-            print(f"Ship3's current position {self.ship_ls[2].position}")
+            print(f"Ship3's current position {self.ship_ls[2].position}\n\n")
 
         #count how many ships have reached the port
         ship_to_port = 0
@@ -153,8 +153,6 @@ class Game():
         print("Player1's final money:", self.player_ls[0].money)
         print("Player2's final money:", self.player_ls[1].money)
         print("Player3's final money:", self.player_ls[2].money)
-
-            
 
 test = Game()
 test.start()
