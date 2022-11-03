@@ -1,7 +1,7 @@
 '''
-LastEditors: Please set LastEditors
+LastEditors: SeekingAspdelus jz332@duke.edu
 Date: 2022-10-27 12:19:15
-LastEditTime: 2022-11-01 22:13:57
+LastEditTime: 2022-11-03 12:36:16
 FilePath: \AI_Game_Agent\play.py
 
 All the method in this file is used to control the player's action.
@@ -84,16 +84,18 @@ class Player():
         for i in self.available_action:
             print(f'{i.name} with cost {i.get_cost()}')
         print('Please specify the action you want to take')
-        action_input = input()
-        action_next = ''
-        for k in range(len(self.game.action_ls)):
-            if(self.game.action_ls[k].name == action_input):
-                action_next = self.game.action_ls[k]
-                print('I find it')
-                Break
-            else:
-                continue
-        self.invest(action_next)
+        while True:
+            action_input = input()
+            action_next = ''
+            for k in range(len(self.game.action_ls)):
+                if(self.game.action_ls[k].name == action_input):
+                    action_next = self.game.action_ls[k]
+                    Break
+                else:
+                    continue
+            success_flag = self.invest(action_next)
+            if success_flag:
+                break
         return action_next
 
     def conclude(self):
