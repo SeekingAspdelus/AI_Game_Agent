@@ -1,8 +1,8 @@
 '''
 Author: Yutong Ren
 Date: 2022-11-01 13:17:09
-LastEditTime: 2022-11-03 14:26:25
-LastEditors: SeekingAspdelus jz332@duke.edu
+LastEditTime: 2022-11-04 11:05:28
+LastEditors: Please set LastEditors
 Description: In User Settings Edit
 FilePath: \AI_Game_Agent\game.py
 '''
@@ -59,15 +59,15 @@ class Game():
             #加一个判定，如果选择的action不属于my_turn所给的，那就要继续输入
             #player1's turn to play
             action_taken = self.player_ls[0].my_turn()
-            print("Player1 has current money:", test.player_ls[0].money)
+            print(f"Player1 has current money: {test.player_ls[0].money}\n")
 
             #player2's turn to play
             action_taken = self.player_ls[1].my_turn()
-            print("Player2 has current money:", test.player_ls[1].money)
+            print(f"Player2 has current money: {test.player_ls[1].money}\n")
 
             #player3's turn to play
             action_taken = self.player_ls[2].my_turn()
-            print("Player3 has current money:", test.player_ls[2].money)
+            print(f"Player3 has current money: {test.player_ls[2].money}\n")
 
             #roll ship1's dice and update the position
             #dice_Ship1_str = str(input())
@@ -153,6 +153,7 @@ class Game():
         print("Player1's final money:", self.player_ls[0].money)
         print("Player2's final money:", self.player_ls[1].money)
         print("Player3's final money:", self.player_ls[2].money)
+
 
 test = Game()
 test.start()
