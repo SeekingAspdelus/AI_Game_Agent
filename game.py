@@ -1,8 +1,8 @@
 '''
 Author: Yutong Ren
 Date: 2022-11-01 13:17:09
-LastEditTime: 2022-11-15 13:48:13
-LastEditors: Tianle Zhu
+LastEditTime: 2022-11-15 13:58:29
+LastEditors: Please set LastEditors
 Description: In User Settings Edit
 FilePath: \AI_Game_Agent\game.py
 '''
@@ -110,7 +110,7 @@ class Game():
             
     def start(self):
         for i in range(self.round_num):
-            print("This is round",(i+1))
+            print("\nThis is round",(i+1))
             self.players_move()
             self.ships_move()
         self.check_balance()
@@ -119,7 +119,7 @@ class Game():
         print("Player3's final money:", self.player_ls[2].money)
 
 
-test = Game(1)
+test = Game(0)
 test.start()
         
         
