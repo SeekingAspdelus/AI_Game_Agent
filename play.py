@@ -137,8 +137,8 @@ class Player():
         for i in self.game.ship_ls:
             if i.get_availability():
                 self.available_action.append(i)
-        if self.game.skip.get_availability():
-            self.available_action.append(self.game.skip)
+        #if self.game.skip.get_availability():
+            #self.available_action.append(self.game.skip)
         money = self.money
         for i in self.available_action:
             if i.get_cost() > money:
