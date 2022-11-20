@@ -1,7 +1,7 @@
 '''
 LastEditors: SeekingAspdelus jz332@duke.edu
 Date: 2022-10-27 12:19:15
-LastEditTime: 2022-11-03 14:14:00
+LastEditTime: 2022-11-03 14:52:11
 FilePath: \AI_Game_Agent\play.py
 
 All the method in this file is used to control the player's action.
@@ -50,17 +50,18 @@ class Player():
         '''
         self.get_action()
         if self.available_action == []:
+            self.add_behavior(action)
             print('Sorry, but you have no available_action')
-            self.skip()
-            return True
-        if action == 'Skip':
             self.skip()
             return True
         if action in self.available_action:
             self.add_behavior(action)
             self.money -= action.get_cost()
-            action.invest(self)
-            print(f'You have succeeded in investing  + {action.name}')
+            action.invest()
+            if action.name == 'Skip':
+                print('You have skipped this term')
+            else:
+                print(f'You have succeeded in investing  + {action.name}')
             return True
         else:
             print('Invalid action, please specify an action from the list')
@@ -82,10 +83,9 @@ class Player():
         self.get_action()
         print('You can invest in:')
         for i in self.available_action:
-            if i == 'Skip':
-                print('You can also choose to skip this turn')
-            else:
+            if i.name != 'Skip':
                 print(f'{i.name} with cost {i.get_cost()}')
+        print('You can also choose to skip this turn')
         print('Please specify the action you want to take')
         while True:
             action_input = input()
@@ -93,9 +93,6 @@ class Player():
             for k in range(len(self.game.action_ls)):
                 if(self.game.action_ls[k].name == action_input):
                     action_next = self.game.action_ls[k]
-                    Break
-                elif action_input == 'Skip':
-                    action_next = 'Skip'
                     Break
                 else:
                     continue
@@ -140,9 +137,10 @@ class Player():
         for i in self.game.ship_ls:
             if i.get_availability():
                 self.available_action.append(i)
+        if self.game.skip.get_availability():
+            self.available_action.append(self.game.skip)
         money = self.money
         for i in self.available_action:
             if i.get_cost() > money:
                 self.available_action.remove(i)
-        self.available_action.append('Skip')
         return self.available_action
