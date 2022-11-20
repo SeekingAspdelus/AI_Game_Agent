@@ -1,7 +1,7 @@
 '''
 Author: Tianle Zhu
 Date: 2022-10-27 12:07:34
-LastEditTime: 2022-11-03 14:38:50
+LastEditTime: 2022-11-15 12:52:42
 LastEditors: Tianle Zhu
 FilePath: \AI_Game_Agent\investment.py
 
@@ -127,6 +127,8 @@ class port():
             return
         self.investors.append(player)
         self.available = False
+        
+    
         
 class shipyard():
     '''
