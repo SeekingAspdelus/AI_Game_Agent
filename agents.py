@@ -1,7 +1,7 @@
 '''
 Author: Tianle Zhu
 Date: 2022-11-20 17:04:47
-LastEditTime: 2022-11-22 22:40:14
+LastEditTime: 2022-11-22 22:42:32
 LastEditors: Please set LastEditors
 FilePath: \AI_Game_Agent\agents.py
 '''
@@ -106,5 +106,3 @@ class QlearningAgent(Player):
             reward = 0
         
         return reward
-
-        pass
