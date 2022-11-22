@@ -1,7 +1,7 @@
 '''
-LastEditors: SeekingAspdelus jz332@duke.edu
+LastEditors: Tianle Zhu
 Date: 2022-10-27 12:19:15
-LastEditTime: 2022-11-03 14:52:11
+LastEditTime: 2022-11-20 17:03:10
 FilePath: \AI_Game_Agent\play.py
 
 All the method in this file is used to control the player's action.
@@ -14,7 +14,6 @@ method may be called in this file:
     status()
 '''
 
-from ast import Break
 
 
 class Player():
@@ -57,7 +56,7 @@ class Player():
         if action in self.available_action:
             self.add_behavior(action)
             self.money -= action.get_cost()
-            action.invest()
+            action.invest(self)
             if action.name == 'Skip':
                 print('You have skipped this term')
             else:
@@ -90,12 +89,18 @@ class Player():
         while True:
             action_input = input()
             action_next = ''
-            for k in range(len(self.game.action_ls)):
-                if(self.game.action_ls[k].name == action_input):
-                    action_next = self.game.action_ls[k]
-                    Break
+            for action in self.available_action:
+                if action.name == action_input:
+                    action_next = action
+                    break
                 else:
                     continue
+            """ for k in range(len(self.game.action_ls)):
+                if(self.game.action_ls[k].name == action_input):
+                    action_next = self.game.action_ls[k]
+                    break
+                else:
+                    continue """
             success_flag = self.invest(action_next)
             if success_flag:
                 break
@@ -137,8 +142,8 @@ class Player():
         for i in self.game.ship_ls:
             if i.get_availability():
                 self.available_action.append(i)
-        #if self.game.skip.get_availability():
-            #self.available_action.append(self.game.skip)
+        if self.game.skip.get_availability():
+            self.available_action.append(self.game.skip)
         money = self.money
         for i in self.available_action:
             if i.get_cost() > money:

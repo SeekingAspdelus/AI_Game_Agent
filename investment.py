@@ -1,7 +1,7 @@
 '''
 Author: Tianle Zhu
 Date: 2022-10-27 12:07:34
-LastEditTime: 2022-11-15 12:52:42
+LastEditTime: 2022-11-20 16:50:09
 LastEditors: Tianle Zhu
 FilePath: \AI_Game_Agent\investment.py
 
@@ -181,8 +181,8 @@ class skip():
     '''
     agents can always skip their turn
     '''
-    def __init__(self,name):
-        self.name = name
+    def __init__(self):
+        self.name = "Skip"
     
     def get_availability(self):
         return True

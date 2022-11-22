@@ -1,16 +1,13 @@
 '''
 Author: Yutong Ren
 Date: 2022-11-01 13:17:09
-LastEditTime: 2022-11-15 13:58:29
-LastEditors: Please set LastEditors
+LastEditTime: 2022-11-20 17:17:27
+LastEditors: Tianle Zhu
 Description: In User Settings Edit
 FilePath: \AI_Game_Agent\game.py
 '''
 import random
-
-from ast import Try
 import play
-
 import investment
 
 class Game():
@@ -18,7 +15,7 @@ class Game():
     instantiate the players, ships, ports, and shipyards, and outputfile
     '''
 
-    def __init__(self,game_num):
+    def __init__(self,game_num,verbose=False):
         """
 
         Args:
@@ -45,15 +42,18 @@ class Game():
         self.port_ls = []
         self.shipyard_ls = []
         self.game_num = game_num
-        self.round_num = 3       
-        '''
-        put players, ships, ports, and shipyards into lists
-        '''
+        self.round_num = 3
+        self.verbose = verbose
+        # instantiate skip in game
+        self.skip = investment.skip()
+        
+        # put players, ships, ports, and shipyards into lists
+        
         self.player_ls = [player1, player2, player3]
         self.ship_ls = [ship1, ship2, ship3]
         self.port_ls = [port1, port2, port3]
         self.shipyard_ls = [shipyard1, shipyard2, shipyard3]
-        self.action_ls = [port1, port2, port3, shipyard1, shipyard2, shipyard3, ship1, ship2, ship3]
+        self.action_ls = [port1, port2, port3, shipyard1, shipyard2, shipyard3, ship1, ship2, ship3, self.skip]
 
         outfile = 'outputfile.txt'
 
@@ -63,7 +63,8 @@ class Game():
         """        
         for player in self.player_ls:
             player.my_turn()
-            print("{} has current money: {}\n".format(player.name,player.money))
+            if self.verbose:
+                print("{} has current money: {}\n".format(player.name,player.money))
         
         return
             
@@ -74,7 +75,8 @@ class Game():
         for ship in self.ship_ls:
             dice_num = random.randint(1,6)
             ship.move(dice_num)
-            print("{}'s current position {}".format(ship.name, ship.get_position()))
+            if self.verbose:
+                print("{}'s current position {}".format(ship.name, ship.get_position()))
         
         return
     
@@ -86,7 +88,7 @@ class Game():
         ship_to_port_ls = []
         ship_sink_ls = []
         for ship in self.ship_ls:
-            if ship.get_position() >13:
+            if ship.get_position() > 13:
                 ship_to_port_ls.append(ship)
             else:
                 ship_sink_ls.append(ship)
@@ -110,7 +112,8 @@ class Game():
             
     def start(self):
         for i in range(self.round_num):
-            print("\nThis is round",(i+1))
+            if self.verbose:
+                print("\nThis is round",(i+1))
             self.players_move()
             self.ships_move()
         self.check_balance()
@@ -118,11 +121,6 @@ class Game():
         print("Player2's final money:", self.player_ls[1].money)
         print("Player3's final money:", self.player_ls[2].money)
 
-
-test = Game(0)
-test.start()
-        
-        
 
 
 
