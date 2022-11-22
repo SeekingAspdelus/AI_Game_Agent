@@ -1,7 +1,7 @@
 '''
 Author: Tianle Zhu
 Date: 2022-11-20 17:04:47
-LastEditTime: 2022-11-20 17:32:31
+LastEditTime: 2022-11-22 15:23:57
 LastEditors: Tianle Zhu
 FilePath: \AI_Game_Agent\agents.py
 '''
@@ -46,9 +46,19 @@ class QlearningAgent(Player):
     def __init__(self, name, money, color, game):
         super().__init__(name, money, color, game)
         self.qtable = util.Qtable()
+        self.factor = 0
     
-    def get_action(self):
+    def set_factor(self,factor):
+        self.factor = factor
         
+    def get_action(self):
+        pass
     
     def my_turn(self):
-        
+        pass
+    
+    def update(self):
+        pass
+    
+    def computeReward(self,action):
+        pass

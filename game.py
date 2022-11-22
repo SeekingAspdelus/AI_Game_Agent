@@ -1,7 +1,7 @@
 '''
 Author: Yutong Ren
 Date: 2022-11-01 13:17:09
-LastEditTime: 2022-11-20 17:17:27
+LastEditTime: 2022-11-22 15:14:56
 LastEditors: Tianle Zhu
 Description: In User Settings Edit
 FilePath: \AI_Game_Agent\game.py
@@ -109,7 +109,9 @@ class Game():
                 continue
             shipyard.get_investors()[0].profit(shipyard.get_payback())
                 
-            
+    def get_state(self):
+        pass
+    
     def start(self):
         for i in range(self.round_num):
             if self.verbose:
@@ -120,16 +122,3 @@ class Game():
         print("Player1's final money:", self.player_ls[0].money)
         print("Player2's final money:", self.player_ls[1].money)
         print("Player3's final money:", self.player_ls[2].money)
-
-
-
-
-
-    
-
-
-
-
-
-
-
