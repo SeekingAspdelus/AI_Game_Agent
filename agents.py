@@ -1,7 +1,7 @@
 '''
 Author: Tianle Zhu
 Date: 2022-11-20 17:04:47
-LastEditTime: 2022-11-22 21:35:03
+LastEditTime: 2022-11-22 22:34:21
 LastEditors: Please set LastEditors
 FilePath: \AI_Game_Agent\agents.py
 '''
@@ -74,14 +74,37 @@ class QlearningAgent(Player):
         pass
     
     def computeReward(self,action):
-        payback = 0
-        
-        if(action.name in "Ship"):
-            payback = action.get_payback()/len(action.get_investors())-action.get_cost
-        elif((action.name in "Port") or (action.name in "Shipyard")):
-            payback = action.get_payback() - action.get_cost
+        ship_pos_ls = [self.game.ship_ls[0].get_position(), self.game.ship_ls[1].get_position(), self.game.ship_ls[2].get_position()]
+        ship_pos_ls_sort = sorted(ship_pos_ls)
+        ship_pos_max = ship_pos_ls_sort[2]
+        ship_pos_mid = ship_pos_ls_sort[1]
+        ship_pos_min = ship_pos_ls_sort[0]
+
+        if(action.type == "Ship"):
+            payback = action.get_payback()/len(action.get_investors())-action.get_cost()
+            reward = payback + self.set_factor*payback*(3.5*self.game.current_round+action.get_position()-13)
+
+        elif((action.type == "Port")):
+            payback = action.get_payback() - action.get_cost()
+            if(action.name == "Port1"):
+                reward = payback + self.set_factor*payback*(3.5*self.game.current_round+ship_pos_max-13)
+            elif(action.name == "Port2"):
+                reward = payback + self.set_factor*payback*(3.5*self.game.current_round+ship_pos_mid-13)
+            else:
+                reward = payback + self.set_factor*payback*(3.5*self.game.current_round+ship_pos_min-13)
+                
+
+        elif(action.type == "Shipyard"):
+            payback = action.get_payback() - action.get_cost()
+            if(action.name == "Shipyard1"):
+                reward = payback - self.set_factor*payback*(3.5*self.game.current_round+ship_pos_min-13)
+            elif(action.name == "Shipyard2"):
+                reward = payback - self.set_factor*payback*(3.5*self.game.current_round+ship_pos_mid-13)
+            else:
+                reward = payback - self.set_factor*payback*(3.5*self.game.current_round+ship_pos_max-13)
         else:
-            payback = 0
-        return reward = payback + factor*payback*(3.5*)
+            reward = 0
+        
+        return reward
 
         pass
