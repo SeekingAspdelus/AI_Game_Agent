@@ -1,7 +1,7 @@
 '''
 Author: Tianle Zhu
 Date: 2022-11-20 17:04:47
-LastEditTime: 2022-11-22 15:23:57
+LastEditTime: 2022-11-22 21:06:59
 LastEditors: Tianle Zhu
 FilePath: \AI_Game_Agent\agents.py
 '''
@@ -12,15 +12,15 @@ import util
 State:
 A list of integer
 Investment and corresponding idx
-    Ship1 : 0
-    Ship2 : 1
-    Ship3 : 2
-    Port1 : 3
-    Port2 : 4
-    Port3 : 5
-    Shipyard1 : 6
-    Shipyard2 : 7
-    Shipyard3 : 8
+    Port1 : 0
+    Port2 : 1
+    Port3 : 2
+    Shipyard1 : 3
+    Shipyard2 : 4
+    Shipyard3 : 5
+    Ship1 : 6
+    Ship2 : 7
+    Ship3 : 8
 
 Values:
     Ships : num of seats left
@@ -29,15 +29,15 @@ Values:
 Action:
 Action idx : 9
 Values:
-    Ship1 : 0
-    Ship2 : 1
-    Ship3 : 2
-    Port1 : 3
-    Port2 : 4
-    Port3 : 5
-    Shipyard1 : 6
-    Shipyard2 : 7
-    Shipyard3 : 8
+    Port1 : 0
+    Port2 : 1
+    Port3 : 2
+    Shipyard1 : 3
+    Shipyard2 : 4
+    Shipyard3 : 5
+    Ship1 : 6
+    Ship2 : 7
+    Ship3 : 8
     Skip : 9
     
 Eg. [2,2,1,0,1,0,0,1,1,3]
@@ -48,15 +48,28 @@ class QlearningAgent(Player):
         self.qtable = util.Qtable()
         self.factor = 0
     
-    def set_factor(self,factor):
+    def set_factor(self, factor):
         self.factor = factor
-        
+    
     def get_action(self):
-        pass
+        action_ls = []
+        money = self.get_money()
+        for action in self.game.action_ls:
+            if action.get_availability() and action.get_cost() > money:
+                action_ls.append(action)
+        return action_ls
     
     def my_turn(self):
+        action_ls = self.get_action()
+        
         pass
     
+    def get_state(self):
+        state = []
+        for ship in self.game.ship_ls
+    
+    def computeAction(self,action_ls):
+        state = self.game.get
     def update(self):
         pass
     
