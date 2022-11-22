@@ -1,8 +1,8 @@
 '''
 Author: Tianle Zhu
 Date: 2022-11-20 17:04:47
-LastEditTime: 2022-11-22 15:23:57
-LastEditors: Tianle Zhu
+LastEditTime: 2022-11-22 21:05:33
+LastEditors: Please set LastEditors
 FilePath: \AI_Game_Agent\agents.py
 '''
 from play import *
@@ -61,4 +61,5 @@ class QlearningAgent(Player):
         pass
     
     def computeReward(self,action):
+        if(action.name == )
         pass
