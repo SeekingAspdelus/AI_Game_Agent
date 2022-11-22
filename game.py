@@ -1,7 +1,7 @@
 '''
 Author: Yutong Ren
 Date: 2022-11-01 13:17:09
-LastEditTime: 2022-11-22 15:14:56
+LastEditTime: 2022-11-22 21:38:24
 LastEditors: Tianle Zhu
 Description: In User Settings Edit
 FilePath: \AI_Game_Agent\game.py
@@ -43,6 +43,7 @@ class Game():
         self.shipyard_ls = []
         self.game_num = game_num
         self.round_num = 3
+        self.current_round = 0
         self.verbose = verbose
         # instantiate skip in game
         self.skip = investment.skip()
@@ -113,11 +114,12 @@ class Game():
         pass
     
     def start(self):
-        for i in range(self.round_num):
+        while self.current_round < self.round_num:
             if self.verbose:
                 print("\nThis is round",(i+1))
             self.players_move()
             self.ships_move()
+            self.current_round += 1
         self.check_balance()
         print("Player1's final money:", self.player_ls[0].money)
         print("Player2's final money:", self.player_ls[1].money)
