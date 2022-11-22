@@ -1,12 +1,13 @@
 '''
 Author: Tianle Zhu
 Date: 2022-10-27 12:07:34
-LastEditTime: 2022-11-20 16:50:09
+LastEditTime: 2022-11-22 22:11:42
 LastEditors: Tianle Zhu
 FilePath: \AI_Game_Agent\investment.py
 
 Include all investment obejct in the game Manila
     generic methods:
+    -- get_type()
     -- get_availability()
     -- get_investors()
     -- get_payback()
@@ -22,13 +23,14 @@ class ship():
     '''
     ship in the game Manila
     '''
-    def __init__(self,name,cost_ls,payback):
+    def __init__(self,name,cost_ls,payback,id):
         '''
         instantiate with cost and potential reward
         -- cost_ls : [,,,]
         -- payback : int
         '''
-        
+        self.type = "ship"
+        self.id = id
         self.name = str(name) # name of the ship
         # check for type error
         if type(cost_ls) != list:
@@ -47,7 +49,9 @@ class ship():
         self.invest_idx = 0
         
     # methods allowed
-    
+    def get_type(self):
+        return self.type
+     
     def get_position(self):
         return self.position
 
@@ -92,7 +96,7 @@ class port():
         -- cost : int
         -- money : int
         '''
-        
+        self.type = "port"
         self.name = str(name) # name of the ship
         # check for type error
         if type(cost) != int:
@@ -106,6 +110,9 @@ class port():
         self.investors = []
      
     # methods allowed 
+    def get_type(self):
+        return self.type
+     
     def get_availability(self):
         return self.available
     
@@ -140,7 +147,7 @@ class shipyard():
         -- cost : int
         -- money : int
         '''
-        
+        self.type = "shipyard"
         self.name = str(name) # name of the ship
         # check for type error
         if type(cost) != int:
@@ -153,7 +160,10 @@ class shipyard():
         self.available = True
         self.investors = []
      
-    # methods allowed 
+    # methods allowed
+    def get_type(self):
+        return self.type
+     
     def get_availability(self):
         return self.available
     
