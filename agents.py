@@ -1,7 +1,7 @@
 '''
 Author: Tianle Zhu
 Date: 2022-11-20 17:04:47
-LastEditTime: 2022-11-22 21:12:46
+LastEditTime: 2022-11-22 21:35:03
 LastEditors: Please set LastEditors
 FilePath: \AI_Game_Agent\agents.py
 '''
@@ -74,5 +74,14 @@ class QlearningAgent(Player):
         pass
     
     def computeReward(self,action):
-        if(action.name == )
+        payback = 0
+        
+        if(action.name in "Ship"):
+            payback = action.get_payback()/len(action.get_investors())-action.get_cost
+        elif((action.name in "Port") or (action.name in "Shipyard")):
+            payback = action.get_payback() - action.get_cost
+        else:
+            payback = 0
+        return reward = payback + factor*payback*(3.5*)
+
         pass

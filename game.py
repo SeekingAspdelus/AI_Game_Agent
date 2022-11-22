@@ -1,8 +1,8 @@
 '''
 Author: Yutong Ren
 Date: 2022-11-01 13:17:09
-LastEditTime: 2022-11-22 15:14:56
-LastEditors: Tianle Zhu
+LastEditTime: 2022-11-22 21:37:21
+LastEditors: Please set LastEditors
 Description: In User Settings Edit
 FilePath: \AI_Game_Agent\game.py
 '''
@@ -43,6 +43,7 @@ class Game():
         self.shipyard_ls = []
         self.game_num = game_num
         self.round_num = 3
+        
         self.verbose = verbose
         # instantiate skip in game
         self.skip = investment.skip()
