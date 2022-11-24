@@ -1,7 +1,7 @@
 '''
 Author: Tianle Zhu
 Date: 2022-10-27 12:07:34
-LastEditTime: 2022-11-22 22:11:42
+LastEditTime: 2022-11-22 22:40:34
 LastEditors: Tianle Zhu
 FilePath: \AI_Game_Agent\investment.py
 
@@ -30,7 +30,6 @@ class ship():
         -- payback : int
         '''
         self.type = "ship"
-        self.id = id
         self.name = str(name) # name of the ship
         # check for type error
         if type(cost_ls) != list:
@@ -193,6 +192,9 @@ class skip():
     '''
     def __init__(self):
         self.name = "Skip"
+        
+    def get_type(self):
+        return "skip"
     
     def get_availability(self):
         return True
