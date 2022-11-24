@@ -1,4 +1,6 @@
 import numpy as np
+import json
+
 class Qtable(dict):
     """
     dictionary-like object
@@ -7,6 +9,18 @@ class Qtable(dict):
     def __getitem__(self, idx):
         self.setdefault(idx, 0)
         return dict.__getitem__(self, idx)
+    
+    def save(self,filepath):
+        json_obj = json.dumps(self, indent=4)
+        with open(filepath, "w") as outfile:
+            outfile.write(json_obj)
+            
+    def load(self,filepath):
+        self.clear()
+        with open(filepath, "r") as openfile:
+            json_obj = json.load(openfile)
+        for key in json_obj:
+            self[key] = json_obj[key]
     
 def randomChoice(arr, Myseed = None):
     if Myseed != None:

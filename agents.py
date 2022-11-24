@@ -1,7 +1,7 @@
 '''
 Author: Tianle Zhu
 Date: 2022-11-20 17:04:47
-LastEditTime: 2022-11-24 21:06:57
+LastEditTime: 2022-11-24 21:34:54
 LastEditors: Tianle Zhu
 FilePath: \AI_Game_Agent\agents.py
 '''
@@ -56,7 +56,13 @@ class QlearningAgent(Player):
                                "Shipyard1" : 3, "Shipyard2" : 4, "Shipyard3" : 5,
                                "Ship1" : 6, "Ship2" : 7, "Ship3" : 8,
                                "Skip" : 9}
-
+        
+    def saveQtable(self,filepath):
+        self.qtable.save(filepath)
+        
+    def loadQtable(self,filepath):
+        self.qtable.load(filepath)
+    
     def set_seed(self, Myseed):
         self.seed = Myseed
     
