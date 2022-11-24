@@ -15,16 +15,12 @@ class Game():
     instantiate the players, ships, ports, and shipyards, and outputfile
     '''
 
-    def __init__(self,game_num,verbose=False):
+    def __init__(self,verbose=False):
         """
 
         Args:
             game_num (int): times the game will be executed
         """        
-        player1 = play.Player("Player1", 30, None, self)
-        player2 = play.Player("Player2", 30, None, self)
-        player3 = play.Player("Player3", 30, None, self) 
-
         ship1 = investment.ship("Ship1", [2,3,4], 30)
         ship2 = investment.ship("Ship2", [3,3,3], 24)
         ship3 = investment.ship("Ship3", [5,3,2], 36)
@@ -41,7 +37,6 @@ class Game():
         self.ship_ls = []
         self.port_ls = []
         self.shipyard_ls = []
-        self.game_num = game_num
         self.round_num = 3
         self.verbose = verbose
         self.current_round = 1
@@ -50,13 +45,15 @@ class Game():
         
         # put players, ships, ports, and shipyards into lists
         
-        self.player_ls = [player1, player2, player3]
         self.ship_ls = [ship1, ship2, ship3]
         self.port_ls = [port1, port2, port3]
         self.shipyard_ls = [shipyard1, shipyard2, shipyard3]
         self.action_ls = [port1, port2, port3, shipyard1, shipyard2, shipyard3, ship1, ship2, ship3, self.skip]
 
         outfile = 'outputfile.txt'
+    
+    def add_player(self, player_ls):
+        self.player_ls = player_ls
 
     def players_move(self):
         """
