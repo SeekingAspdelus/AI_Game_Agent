@@ -1,7 +1,7 @@
 '''
 Author: Tianle Zhu
 Date: 2022-11-20 17:04:47
-LastEditTime: 2022-11-24 17:14:02
+LastEditTime: 2022-11-24 17:25:02
 LastEditors: Tianle Zhu
 FilePath: \AI_Game_Agent\agents.py
 '''
@@ -49,10 +49,14 @@ class QlearningAgent(Player):
         self.factor = 0
         self.alpha = 0.7
         self.gamma = 0.5
+        self.tValue = 0
         self.action_val_dic = {"Port1" : 0, "Port2" : 1, "Port3" : 2,
                                "Shipyard1" : 3, "Shipyard2" : 4, "Shipyard3" : 5,
                                "Ship1" : 6, "Ship2" : 7, "Ship" : 8,
                                "Skip" : 9}
+    
+    def set_t(self,t):
+        self.tValue = t
     
     def set_factor(self, factor):
         self.factor = factor
@@ -71,8 +75,6 @@ class QlearningAgent(Player):
     def my_turn(self):
         action, _ = self.computeMax()
         action.invest(self)
-        self.update()
-        
         
     def get_state(self):
         state = []

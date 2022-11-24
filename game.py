@@ -1,8 +1,8 @@
 '''
 Author: Yutong Ren
 Date: 2022-11-01 13:17:09
-LastEditTime: 2022-11-22 21:44:53
-LastEditors: Please set LastEditors
+LastEditTime: 2022-11-24 17:29:09
+LastEditors: Tianle Zhu
 Description: In User Settings Edit
 FilePath: \AI_Game_Agent\game.py
 '''
@@ -44,6 +44,7 @@ class Game():
         self.game_num = game_num
         self.round_num = 3
         self.verbose = verbose
+        self.current_round = 1
         # instantiate skip in game
         self.skip = investment.skip()
         
@@ -113,9 +114,9 @@ class Game():
         pass
     
     def start(self):
-        while self.current_round < self.round_num:
+        while self.current_round <= self.round_num:
             if self.verbose:
-                print("\nThis is round",(i+1))
+                print("\nThis is round",(self.current_round))
             self.players_move()
             self.ships_move()
             self.current_round += 1
