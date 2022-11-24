@@ -1,7 +1,7 @@
 '''
 Author: Tianle Zhu
 Date: 2022-11-20 17:04:47
-LastEditTime: 2022-11-24 21:34:54
+LastEditTime: 2022-11-24 22:53:00
 LastEditors: Tianle Zhu
 FilePath: \AI_Game_Agent\agents.py
 '''
@@ -11,7 +11,7 @@ import util
 
 """
 State:
-A list of integer
+A tuple of integer
 Investment and corresponding idx
     Port1 : 0
     Port2 : 1
@@ -41,7 +41,7 @@ Values:
     Ship3 : 8
     Skip : 9
     
-Eg. [2,2,1,0,1,0,0,1,1,3]
+Eg. (2,2,1,0,1,0,0,1,1,3)
 """
 class QlearningAgent(Player):
     def __init__(self, name, money, color, game):
