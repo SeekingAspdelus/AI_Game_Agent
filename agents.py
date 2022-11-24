@@ -1,7 +1,7 @@
 '''
 Author: Tianle Zhu
 Date: 2022-11-20 17:04:47
-LastEditTime: 2022-11-24 23:51:29
+LastEditTime: 2022-11-24 23:52:43
 LastEditors: Tianle Zhu
 FilePath: \AI_Game_Agent\agents.py
 '''
@@ -101,8 +101,8 @@ class QlearningAgent(Player):
         # compute Reward
         R = self.computeReward(action)
         # take the action
-        action.invest(self)
         self.money -= action.get_cost()
+        action.invest(self)
         if self.verbose:
             print("{agent_name} invested in {investment_name}".format(agent_name=self.name, investment_name=action.name))
         # observe nextState and compute maximum Qvalue of nextState
