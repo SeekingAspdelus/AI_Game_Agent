@@ -6,16 +6,16 @@ import agents
 def main(args):
     # create a game
     g = game.Game(args.verbose)
-    # create players
-    player1 = play.Player("Player1", 30, None, g)
-    player2 = play.Player("Player2", 30, None, g)
-    player3 = play.Player("Player3", 30, None, g)
-    # add AI players to the game
-    if args.AI_num == 2:
-        player1 = agents.QlearningAgent(player1)
-    elif args.AI_num == 1:
-        player1 = agents.QlearningAgent(player1)
-        player2 = agents.QlearningAgent(player2)
+    # create AI players
+    player1 = agents.QlearningAgent("Player1", 30, None, g)
+    player2 = agents.QlearningAgent("Player2", 30, None, g)
+    player3 = agents.QlearningAgent("Player3", 30, None, g)
+    # add human players to the game
+    if args.AI_num == 1:
+        player1 = play.Player("Player1", 30, None, g)
+        player2 = play.Player("Player2", 30, None, g)
+    elif args.AI_num == 2:
+        player1 = play.Player("Player1", 30, None, g)
     player_ls = [player1, player2, player3]
     g.add_player(player_ls)
     # start the train
