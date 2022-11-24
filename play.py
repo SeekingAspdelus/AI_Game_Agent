@@ -151,4 +151,5 @@ class Player():
         return self.available_action
 
     def next_game(self, game):
+        self.set_money(30)
         self.game = game
