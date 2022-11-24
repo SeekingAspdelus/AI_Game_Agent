@@ -1,7 +1,7 @@
 '''
 Author: Tianle Zhu
 Date: 2022-10-27 12:07:34
-LastEditTime: 2022-11-22 22:40:34
+LastEditTime: 2022-11-24 16:48:20
 LastEditors: Tianle Zhu
 FilePath: \AI_Game_Agent\investment.py
 
@@ -83,6 +83,8 @@ class ship():
         # move the ship steps further
         self.position += steps
     
+    def get_length(self):
+        return len(self.cost)
     # methods not allowed
     
 class port():
@@ -134,6 +136,9 @@ class port():
         self.investors.append(player)
         self.available = False
         
+    def get_length(self):
+        return 1
+        
     
         
 class shipyard():
@@ -184,6 +189,9 @@ class shipyard():
             return
         self.investors.append(player)
         self.available = False
+        
+    def get_length(self):
+        return 1
         
         
 class skip():
