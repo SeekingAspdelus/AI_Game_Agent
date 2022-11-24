@@ -1,7 +1,7 @@
 '''
 Author: Tianle Zhu
 Date: 2022-11-20 17:04:47
-LastEditTime: 2022-11-24 19:00:26
+LastEditTime: 2022-11-24 19:19:00
 LastEditors: Tianle Zhu
 FilePath: \AI_Game_Agent\agents.py
 '''
@@ -82,10 +82,15 @@ class QlearningAgent(Player):
         return action_ls
     
     def my_turn(self):
+        # compute action with maximum Qvalue
         action, currentQ, currentState = self.computeMax()
+        # take the action
         action.invest(self)
+        # observe nextState and compute maximum Qvalue of nextState
         _,nextQ,_ = self.computeMax()
+        # compute Reward
         R = self.computeReward(action)
+        # update Qtable
         newQ = (1 - self.alpha) * currentQ + self.alpha * (R + self.gamma * nextQ)
         self.update_Qtable(newQ,currentState,action)
         
@@ -100,6 +105,7 @@ class QlearningAgent(Player):
         return state
 
     def computeMax(self):
+        # compute the maximum Qvalue based current state and available actions
         state = self.get_state()
         action_ls = self.get_action()
         qMax = float('-inf')
@@ -114,7 +120,7 @@ class QlearningAgent(Player):
             if qvalue > qMax:
                 qMax = qvalue
                 actionMax = action
-        
+        # break tie randomly
         if len(candidate) != 0:
             actionMax = util.randomChoice(candidate,self.seed)
         return actionMax, qMax, state

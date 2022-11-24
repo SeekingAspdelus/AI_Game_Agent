@@ -1,7 +1,7 @@
 '''
 Author: Tianle Zhu
 Date: 2022-10-27 12:07:34
-LastEditTime: 2022-11-24 16:48:20
+LastEditTime: 2022-11-24 19:58:46
 LastEditors: Tianle Zhu
 FilePath: \AI_Game_Agent\investment.py
 
@@ -23,7 +23,7 @@ class ship():
     '''
     ship in the game Manila
     '''
-    def __init__(self,name,cost_ls,payback,id):
+    def __init__(self,name,cost_ls,payback):
         '''
         instantiate with cost and potential reward
         -- cost_ls : [,,,]
