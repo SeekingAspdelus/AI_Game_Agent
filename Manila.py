@@ -27,18 +27,18 @@ def main(args):
     g.add_player(player_ls)
     # start the train
     for epoch in range(args.epoch):
+        print('------ Training ------')
         t_start = time.time()
         g.start()
+        print("Player1's final money:", int(player_ls[0].money))
+        print("Player2's final money:", int(player_ls[1].money))
+        print("Player3's final money:", int(player_ls[2].money))
         g = game.Game(args.verbose)
         for player in player_ls:
             player.next_game(g)
         g.add_player(player_ls)
         t_end = time.time()
-        print('------ Training ------')
         print('Epoch {:02d} | Time: {:.4f}'.format(epoch, t_end-t_start))
-        print("Player1's final money:", int(player_ls[0].money))
-        print("Player2's final money:", int(player_ls[1].money))
-        print("Player3's final money:", int(player_ls[2].money))
 
 if __name__ == '__main__':
     import argparse
