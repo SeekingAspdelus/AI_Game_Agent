@@ -1,10 +1,11 @@
 '''
 Author: Tianle Zhu
 Date: 2022-11-20 17:04:47
-LastEditTime: 2022-11-24 17:25:02
+LastEditTime: 2022-11-24 19:00:26
 LastEditors: Tianle Zhu
 FilePath: \AI_Game_Agent\agents.py
 '''
+import numpy as np
 from play import *
 import util
 
@@ -50,19 +51,27 @@ class QlearningAgent(Player):
         self.alpha = 0.7
         self.gamma = 0.5
         self.tValue = 0
+        self.seed = None
         self.action_val_dic = {"Port1" : 0, "Port2" : 1, "Port3" : 2,
                                "Shipyard1" : 3, "Shipyard2" : 4, "Shipyard3" : 5,
                                "Ship1" : 6, "Ship2" : 7, "Ship" : 8,
                                "Skip" : 9}
-    
-    def set_t(self,t):
-        self.tValue = t
+
+    def set_seed(self, Myseed):
+        self.seed = Myseed
     
     def set_factor(self, factor):
         self.factor = factor
     
     def get_qvalue(self,s_a_pair):
         return self.qtable[s_a_pair]
+    
+    def update_Qtable(self, newQ, state, action):
+        s_a_pair = state + [self.convertAction(action)]
+        self.qtable[s_a_pair] = newQ
+    
+    def convertAction(self, action):
+        return self.action_val_dic[action.name]
     
     def get_action(self):
         action_ls = []
@@ -73,8 +82,12 @@ class QlearningAgent(Player):
         return action_ls
     
     def my_turn(self):
-        action, _ = self.computeMax()
+        action, currentQ, currentState = self.computeMax()
         action.invest(self)
+        _,nextQ,_ = self.computeMax()
+        R = self.computeReward(action)
+        newQ = (1 - self.alpha) * currentQ + self.alpha * (R + self.gamma * nextQ)
+        self.update_Qtable(newQ,currentState,action)
         
     def get_state(self):
         state = []
@@ -90,19 +103,21 @@ class QlearningAgent(Player):
         state = self.get_state()
         action_ls = self.get_action()
         qMax = float('-inf')
+        candidate = []
         actionMax = None
         for action in action_ls:
-            action_val = self.action_val_dic[action.name]
+            action_val = self.convertAction(action)
             s_a_pair = state + [action_val]
             qvalue = self.get_qvalue(s_a_pair)
+            if qvalue == qMax:
+                candidate.append(action)
             if qvalue > qMax:
                 qMax = qvalue
                 actionMax = action
-                
-        return actionMax, qMax
-    
-    def update(self):
-        pass
+        
+        if len(candidate) != 0:
+            actionMax = util.randomChoice(candidate,self.seed)
+        return actionMax, qMax, state
     
     def computeReward(self,action):
         ship_pos_ls = [self.game.ship_ls[0].get_position(), self.game.ship_ls[1].get_position(), self.game.ship_ls[2].get_position()]
