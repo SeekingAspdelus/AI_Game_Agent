@@ -33,13 +33,19 @@ def main(args):
         print("Player1's final money:", int(player_ls[0].money))
         print("Player2's final money:", int(player_ls[1].money))
         print("Player3's final money:", int(player_ls[2].money))
+        money_ls = [player_ls[0].money, player_ls[1].money, player_ls[2].money]
+        player_ls[money_ls.index(max(money_ls))].winrate += 1
         g = game.Game(args.verbose)
         for player in player_ls:
             player.next_game(g)
         g.add_player(player_ls)
         t_end = time.time()
-        print('Epoch {:02d} | Time: {:.4f}'.format(epoch, t_end-t_start))
+        print('Epoch {:02d} | Time: {:.4f}'.format(epoch+1, t_end-t_start))
+    print(  'Player1 winrate: {:.2f}%'.format(player1.winrate/args.epoch*100),
+            'Player2 winrate: {:.2f}%'.format(player2.winrate/args.epoch*100),
+            'Player3 winrate: {:.2f}%'.format(player3.winrate/args.epoch*100), sep='\t')    
     # save the qtable
+    print('------ Saving ------')
     player2.saveQtable("qtable_normal.json")
     player3.saveQtable("qtable_risk.json")
     

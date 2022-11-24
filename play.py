@@ -23,6 +23,7 @@ class Player():
         self.color = color # player's color
         self.behavior = [] #player's used behavior object
         self.game = game # game
+        self.winrate = 0 # winrate
 
     def __str__(self):
         return f'{self.name} has {self.money} Peso, his/her color is {self.color}'

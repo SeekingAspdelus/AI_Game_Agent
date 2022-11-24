@@ -24,5 +24,7 @@ def main():
     print("Player1's final money:", int(player_ls[0].money))
     print("Player2's final money:", int(player_ls[1].money))
     print("Player3's final money:", int(player_ls[2].money))
+    player2.saveQtable("qtable_normal.json")
+    player3.saveQtable("qtable_risk.json")
 
 main()
