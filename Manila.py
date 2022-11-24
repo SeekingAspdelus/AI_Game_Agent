@@ -11,7 +11,11 @@ def main(args):
     player2 = agents.QlearningAgent("Player2", 30, None, g)
     player3 = agents.QlearningAgent("Player3", 30, None, g)
     # add human players to the game
-    if args.AI_num == 1:
+    if args.AI_num == 0:
+        player1 = play.Player("Player1", 30, None, g)
+        player2 = play.Player("Player2", 30, None, g)
+        player3 = play.Player("Player3", 30, None, g)
+    elif args.AI_num == 1:
         player1 = play.Player("Player1", 30, None, g)
         player2 = play.Player("Player2", 30, None, g)
     elif args.AI_num == 2:
@@ -27,7 +31,11 @@ def main(args):
             player.next_game(g)
         g.add_player(player_ls)
         t_end = time.time()
+        print('------ Training ------')
         print('Epoch {:02d} | Time: {:.4f}'.format(epoch, t_end-t_start))
+        print("Player1's final money:", int(player_ls[0].money))
+        print("Player2's final money:", int(player_ls[1].money))
+        print("Player3's final money:", int(player_ls[2].money))
 
 if __name__ == '__main__':
     import argparse
