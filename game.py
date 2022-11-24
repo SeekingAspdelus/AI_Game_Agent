@@ -118,6 +118,3 @@ class Game():
             self.ships_move()
             self.current_round += 1
         self.check_balance()
-        print("Player1's final money:", self.player_ls[0].money)
-        print("Player2's final money:", self.player_ls[1].money)
-        print("Player3's final money:", self.player_ls[2].money)

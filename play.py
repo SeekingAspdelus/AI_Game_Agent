@@ -60,7 +60,7 @@ class Player():
             if action.name == 'Skip':
                 print('You have skipped this term')
             else:
-                print(f'You have succeeded in investing  + {action.name}')
+                print(f'You have succeeded in investing {action.name}')
             return True
         else:
             print('Invalid action, please specify an action from the list')
