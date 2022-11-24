@@ -1,7 +1,7 @@
 '''
 Author: Tianle Zhu
 Date: 2022-11-20 17:04:47
-LastEditTime: 2022-11-24 20:43:39
+LastEditTime: 2022-11-24 21:06:57
 LastEditors: Tianle Zhu
 FilePath: \AI_Game_Agent\agents.py
 '''
@@ -84,12 +84,12 @@ class QlearningAgent(Player):
     def my_turn(self):
         # compute action with maximum Qvalue
         action, currentQ, currentState = self.computeMax()
+        # compute Reward
+        R = self.computeReward(action)
         # take the action
         action.invest(self)
         # observe nextState and compute maximum Qvalue of nextState
         _,nextQ,_ = self.computeMax()
-        # compute Reward
-        R = self.computeReward(action)
         # update Qtable
         newQ = (1 - self.alpha) * currentQ + self.alpha * (R + self.gamma * nextQ)
         self.update_Qtable(newQ,currentState,action)
@@ -134,7 +134,7 @@ class QlearningAgent(Player):
         ship_pos_min = ship_pos_ls_sort[0]
 
         if(action.get_type() == "ship"):
-            payback = action.get_payback()/len(action.get_investors())-action.get_cost()
+            payback = action.get_payback()/(len(action.get_investors())+1)-action.get_cost()
             reward = payback + self.factor*payback*(3.5*(3-self.game.current_round)+action.get_position()-13)
 
         elif((action.get_type() == "port")):
