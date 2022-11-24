@@ -15,7 +15,7 @@ class Game():
     instantiate the players, ships, ports, and shipyards, and outputfile
     '''
 
-    def __init__(self,verbose=False):
+    def __init__(self,verbose):
         """
 
         Args:
