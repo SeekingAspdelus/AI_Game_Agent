@@ -1,7 +1,7 @@
 '''
 Author: Tianle Zhu
 Date: 2022-11-20 17:04:47
-LastEditTime: 2022-11-24 22:53:00
+LastEditTime: 2022-11-24 23:24:44
 LastEditors: Tianle Zhu
 FilePath: \AI_Game_Agent\agents.py
 '''
@@ -22,10 +22,14 @@ Investment and corresponding idx
     Ship1 : 6
     Ship2 : 7
     Ship3 : 8
+    Ship1 position : 9
+    Ship2 position : 10
+    Ship3 position : 11
 
 Values:
     Ships : num of seats left
     Other investments : 0 == unavailable; 1 == available
+    Ship position : current position
     
 Action:
 Action idx : 9
@@ -41,7 +45,7 @@ Values:
     Ship3 : 8
     Skip : 9
     
-Eg. (2,2,1,0,1,0,0,1,1,3)
+Eg. (2,2,1,0,1,0,0,1,1,3,6,6,6)
 """
 class QlearningAgent(Player):
     def __init__(self, name, money, color, game):
@@ -103,11 +107,14 @@ class QlearningAgent(Player):
     def get_state(self):
         state = []
         investment_ls = self.game.action_ls[:-1]
+        # investment availability
         for investment in investment_ls:
             investor_num = len(investment.get_investors())
             slot_left = investment.get_length() - investor_num
             state.append(slot_left)
-        
+        # ship position
+        for ship in self.game.ship_ls:
+            state.append(ship.get_position())
         return state
 
     def computeMax(self):
