@@ -10,9 +10,9 @@ def main(args):
     player1 = agents.QlearningAgent("Player1", 30, None, g)
     player2 = agents.QlearningAgent("Player2", 30, None, g)
     player3 = agents.QlearningAgent("Player3", 30, None, g)
-    player1.set_factor(0.5)
+    player1.set_factor(0.3)
     player2.set_factor(1)
-    player3.set_factor(1.5)
+    player3.set_factor(1.8)
     # add human players to the game
     if args.AI_num == 0:
         player1 = play.Player("Player1", 30, None, g)
@@ -39,6 +39,10 @@ def main(args):
         g.add_player(player_ls)
         t_end = time.time()
         print('Epoch {:02d} | Time: {:.4f}'.format(epoch, t_end-t_start))
+    # save the qtable
+    player2.saveQtable("qtable_normal.json")
+    player3.saveQtable("qtable_risk.json")
+    
 
 if __name__ == '__main__':
     import argparse
@@ -46,7 +50,7 @@ if __name__ == '__main__':
 
     # Player options
     parser.add_argument('--AI_num', type=int, default=3, help = "number of AI players (0-3)")
-    parser.add_argument('--Factor', type=int, nargs='+', default=[0.5, 1, 1.5], help = "learning factor of AI players")
+    parser.add_argument('--Factor', type=float, nargs='+', default=[0.5, 1, 1.5], help = "learning factor of AI players")
 
     # Print options
     parser.add_argument('--verbose',  type=bool, default=False, help = "whether to print the game process")
