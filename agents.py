@@ -1,7 +1,7 @@
 '''
 Author: Tianle Zhu
 Date: 2022-11-20 17:04:47
-LastEditTime: 2022-11-24 20:39:11
+LastEditTime: 2022-11-24 20:43:39
 LastEditors: Tianle Zhu
 FilePath: \AI_Game_Agent\agents.py
 '''
@@ -123,7 +123,6 @@ class QlearningAgent(Player):
                 candidate = [action]
         # break tie randomly
         if len(candidate) != 0:
-            print(candidate)
             actionMax = util.randomChoice(candidate,self.seed)
         return actionMax, qMax, state
     
