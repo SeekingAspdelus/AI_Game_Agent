@@ -149,3 +149,6 @@ class Player():
             if i.get_cost() > money:
                 self.available_action.remove(i)
         return self.available_action
+
+    def next_game(self, game):
+        self.game = game
