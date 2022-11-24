@@ -1,7 +1,7 @@
 '''
 Author: Tianle Zhu
 Date: 2022-11-20 17:04:47
-LastEditTime: 2022-11-24 19:19:00
+LastEditTime: 2022-11-24 20:39:11
 LastEditors: Tianle Zhu
 FilePath: \AI_Game_Agent\agents.py
 '''
@@ -54,7 +54,7 @@ class QlearningAgent(Player):
         self.seed = None
         self.action_val_dic = {"Port1" : 0, "Port2" : 1, "Port3" : 2,
                                "Shipyard1" : 3, "Shipyard2" : 4, "Shipyard3" : 5,
-                               "Ship1" : 6, "Ship2" : 7, "Ship" : 8,
+                               "Ship1" : 6, "Ship2" : 7, "Ship3" : 8,
                                "Skip" : 9}
 
     def set_seed(self, Myseed):
@@ -64,10 +64,10 @@ class QlearningAgent(Player):
         self.factor = factor
     
     def get_qvalue(self,s_a_pair):
-        return self.qtable[s_a_pair]
+        return self.qtable[tuple(s_a_pair)]
     
     def update_Qtable(self, newQ, state, action):
-        s_a_pair = state + [self.convertAction(action)]
+        s_a_pair = tuple(state + [self.convertAction(action)])
         self.qtable[s_a_pair] = newQ
     
     def convertAction(self, action):
@@ -77,7 +77,7 @@ class QlearningAgent(Player):
         action_ls = []
         money = self.get_money()
         for action in self.game.action_ls:
-            if action.get_availability() and action.get_cost() > money:
+            if action.get_availability() and action.get_cost() < money:
                 action_ls.append(action)
         return action_ls
     
@@ -120,8 +120,10 @@ class QlearningAgent(Player):
             if qvalue > qMax:
                 qMax = qvalue
                 actionMax = action
+                candidate = [action]
         # break tie randomly
         if len(candidate) != 0:
+            print(candidate)
             actionMax = util.randomChoice(candidate,self.seed)
         return actionMax, qMax, state
     
