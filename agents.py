@@ -1,7 +1,7 @@
 '''
 Author: Tianle Zhu
 Date: 2022-11-20 17:04:47
-LastEditTime: 2022-11-24 23:24:44
+LastEditTime: 2022-11-24 23:51:29
 LastEditors: Tianle Zhu
 FilePath: \AI_Game_Agent\agents.py
 '''
@@ -56,11 +56,15 @@ class QlearningAgent(Player):
         self.gamma = 0.5
         self.tValue = 0
         self.seed = None
+        self.verbose = False
         self.action_val_dic = {"Port1" : 0, "Port2" : 1, "Port3" : 2,
                                "Shipyard1" : 3, "Shipyard2" : 4, "Shipyard3" : 5,
                                "Ship1" : 6, "Ship2" : 7, "Ship3" : 8,
                                "Skip" : 9}
         
+    def set_verbose(self, verbose):
+        self.verbose = verbose
+
     def saveQtable(self,filepath):
         self.qtable.save(filepath)
         
@@ -98,6 +102,9 @@ class QlearningAgent(Player):
         R = self.computeReward(action)
         # take the action
         action.invest(self)
+        self.money -= action.get_cost()
+        if self.verbose:
+            print("{agent_name} invested in {investment_name}".format(agent_name=self.name, investment_name=action.name))
         # observe nextState and compute maximum Qvalue of nextState
         _,nextQ,_ = self.computeMax()
         # update Qtable

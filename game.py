@@ -1,7 +1,7 @@
 '''
 Author: Yutong Ren
 Date: 2022-11-01 13:17:09
-LastEditTime: 2022-11-24 17:29:09
+LastEditTime: 2022-11-24 23:42:53
 LastEditors: Tianle Zhu
 Description: In User Settings Edit
 FilePath: \AI_Game_Agent\game.py
@@ -21,17 +21,17 @@ class Game():
         Args:
             game_num (int): times the game will be executed
         """        
-        ship1 = investment.ship("Ship1", [2,3,4], 30)
-        ship2 = investment.ship("Ship2", [3,3,3], 24)
-        ship3 = investment.ship("Ship3", [5,3,2], 36)
+        ship1 = investment.ship("Ship1", [2,3,4], 24)
+        ship2 = investment.ship("Ship2", [3,4,5], 30)
+        ship3 = investment.ship("Ship3", [1,2,3], 18)
     
         port1 = investment.port("Port1", 4, 6)
-        port2 = investment.port("Port2", 5, 7)
-        port3 = investment.port("Port3", 3, 4)
+        port2 = investment.port("Port2", 3, 8)
+        port3 = investment.port("Port3", 2, 15)
 
-        shipyard1 = investment.shipyard("Shipyard1", 3, 4)
-        shipyard2 = investment.shipyard("Shipyard2", 6, 8)
-        shipyard3 = investment.shipyard("Shipyard3", 5, 6)
+        shipyard1 = investment.shipyard("Shipyard1", 4, 6)
+        shipyard2 = investment.shipyard("Shipyard2", 3, 8)
+        shipyard3 = investment.shipyard("Shipyard3", 2, 15)
 
         self.player_ls = []
         self.ship_ls = []

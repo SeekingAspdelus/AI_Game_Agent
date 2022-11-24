@@ -1,7 +1,7 @@
 '''
 LastEditors: Tianle Zhu
 Date: 2022-10-27 12:19:15
-LastEditTime: 2022-11-24 23:19:22
+LastEditTime: 2022-11-24 23:41:23
 FilePath: \AI_Game_Agent\play.py
 
 All the method in this file is used to control the player's action.
@@ -84,8 +84,8 @@ class Player():
         for i in self.available_action:
             if i.name != 'Skip':
                 print(f'{i.name} with cost {i.get_cost()}')
-        for ship in self.game.ship_ls:
-            print("{ship} now at position {position}".format(ship=ship.name, position=ship.position))
+        """ for ship in self.game.ship_ls:
+            print("{ship} now at position {position}".format(ship=ship.name, position=ship.position)) """
         print('You can also choose to skip this turn')
         print('Please specify the action you want to take')
         while True:
