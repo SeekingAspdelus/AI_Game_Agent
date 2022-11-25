@@ -17,7 +17,7 @@ def main():
     player3 = agents.QlearningAgent("Player3", 30, None, g)
     player3.set_verbose(True)
     player2.loadQtable("qtable_normal.json")
-    player3.loadQtable("qtable_risk.json")
+    player3.loadQtable("qtable_conservative.json")
     player_ls = [player1, player2, player3]
     g.add_player(player_ls)
     g.start()
@@ -25,6 +25,6 @@ def main():
     print("Player2's final money:", int(player_ls[1].money))
     print("Player3's final money:", int(player_ls[2].money))
     player2.saveQtable("qtable_normal.json")
-    player3.saveQtable("qtable_risk.json")
+    player3.saveQtable("qtable_conservative.json")
 
 main()

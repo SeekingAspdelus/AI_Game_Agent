@@ -47,7 +47,7 @@ def main(args):
     # save the qtable
     print('------ Saving ------')
     player2.saveQtable("qtable_normal.json")
-    player3.saveQtable("qtable_risk.json")
+    player3.saveQtable("qtable_conservative.json")
     
 
 if __name__ == '__main__':
