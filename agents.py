@@ -1,7 +1,7 @@
 '''
 Author: Tianle Zhu
 Date: 2022-11-20 17:04:47
-LastEditTime: 2022-11-25 13:51:42
+LastEditTime: 2022-11-26 18:31:05
 LastEditors: Tianle Zhu
 FilePath: \AI_Game_Agent\agents.py
 '''
@@ -160,11 +160,11 @@ class QlearningAgent(Player):
         ship_pos_mid = ship_pos_ls_sort[1]
         ship_pos_min = ship_pos_ls_sort[0]
 
-        if(action.get_type() == "ship"):
+        if action.get_type() == "ship":
             payback = action.get_payback()/(len(action.get_investors())+1)-action.get_cost()
             reward = payback + self.factor*payback*(3.5*(3-self.game.current_round)+action.get_position()-13)
 
-        elif((action.get_type() == "port")):
+        elif action.get_type() == "port":
             payback = action.get_payback() - action.get_cost()
             if(action.name == "Port1"):
                 reward = payback + self.factor*payback*(3.5*(3-self.game.current_round)+ship_pos_max-13)
@@ -174,11 +174,11 @@ class QlearningAgent(Player):
                 reward = payback + self.factor*payback*(3.5*(3-self.game.current_round)+ship_pos_min-13)
                 
 
-        elif(action.get_type() == "shipyard"):
+        elif action.get_type() == "shipyard":
             payback = action.get_payback() - action.get_cost()
-            if(action.name == "Shipyard1"):
+            if action.name == "Shipyard1":
                 reward = payback - self.factor*payback*(3.5*(3-self.game.current_round)+ship_pos_min-13)
-            elif(action.name == "Shipyard2"):
+            elif action.name == "Shipyard2":
                 reward = payback - self.factor*payback*(3.5*(3-self.game.current_round)+ship_pos_mid-13)
             else:
                 reward = payback - self.factor*payback*(3.5*(3-self.game.current_round)+ship_pos_max-13)
