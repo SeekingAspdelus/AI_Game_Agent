@@ -1,7 +1,7 @@
 '''
 Author: Tianle Zhu
 Date: 2022-11-20 17:04:47
-LastEditTime: 2022-11-25 00:23:16
+LastEditTime: 2022-11-25 13:51:42
 LastEditors: Tianle Zhu
 FilePath: \AI_Game_Agent\agents.py
 '''
@@ -11,7 +11,7 @@ import util
 
 """
 State:
-A tuple of integer
+integer tuple
 Investment and corresponding idx
     Port1 : 0
     Port2 : 1
