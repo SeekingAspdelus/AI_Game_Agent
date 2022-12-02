@@ -1,7 +1,7 @@
 '''
 Author: Tianle Zhu
 Date: 2022-11-20 17:04:47
-LastEditTime: 2022-11-26 18:31:05
+LastEditTime: 2022-12-02 17:22:59
 LastEditors: Tianle Zhu
 FilePath: \AI_Game_Agent\agents.py
 '''
@@ -61,6 +61,8 @@ class QlearningAgent(Player):
         self.tValue = 0
         self.seed = None
         self.verbose = False
+        self.epsilon = .95
+        self.eps_step = 0.05
         self.action_val_dic = {"Port1" : 0, "Port2" : 1, "Port3" : 2,
                                "Shipyard1" : 3, "Shipyard2" : 4, "Shipyard3" : 5,
                                "Ship1" : 6, "Ship2" : 7, "Ship3" : 8,
@@ -101,7 +103,7 @@ class QlearningAgent(Player):
     
     def my_turn(self):
         # compute action with maximum Qvalue
-        action, currentQ, currentState = self.computeMax()
+        action, currentQ, currentState = self.eps_greedy()
         # compute Reward
         R = self.computeReward(action)
         # take the action
@@ -130,8 +132,24 @@ class QlearningAgent(Player):
             state.append(player.get_money())
         state.append(self.game.round_num)
         return state
-
+    
+    def eps_greedy(self):
+        eps_prob = np.random.rand()
+        if eps_prob < self.epsilon:
+            state = self.get_state()
+            action_ls = self.get_action()
+            action = util.randomChoice(action_ls)
+            action_val = self.convertAction(action)
+            s_a_pair = state + [action_val]
+            qvalue = self.get_qvalue(s_a_pair)
+            self.epsilon -= self.eps_step
+            return action, qvalue, state
+        else:
+            self.epsilon -= self.eps_step
+            return self.computeMax()
+        
     def computeMax(self):
+        
         # compute the maximum Qvalue based current state and available actions
         state = self.get_state()
         action_ls = self.get_action()
