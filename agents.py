@@ -1,7 +1,7 @@
 '''
 Author: Tianle Zhu
 Date: 2022-11-20 17:04:47
-LastEditTime: 2022-12-04 18:10:15
+LastEditTime: 2022-12-10 01:52:36
 LastEditors: Tianle Zhu
 FilePath: \AI_Game_Agent\agents.py
 '''
@@ -48,8 +48,6 @@ Values:
     Ship2 : 7
     Ship3 : 8
     Skip : 9
-    
-Eg. (2,2,1,0,1,0,0,1,1,3,6,6,6)
 """
 class QlearningAgent(Player):
     def __init__(self, name, money, color, game):
