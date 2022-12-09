@@ -1,7 +1,7 @@
 '''
 Author: Tianle Zhu
 Date: 2022-11-20 17:04:47
-LastEditTime: 2022-12-02 17:22:59
+LastEditTime: 2022-12-04 18:10:15
 LastEditors: Tianle Zhu
 FilePath: \AI_Game_Agent\agents.py
 '''
@@ -25,9 +25,9 @@ Investment and corresponding idx
     Ship1 position : 9
     Ship2 position : 10
     Ship3 position : 11
-    Player1 money : 12
-    Player2 money : 13
-    Player3 money : 14
+    money difference to 1st player : 12
+    money difference to 2nd player : 13
+    money difference to 3rd player : 14
     Roung number : 15
 
 Values:
@@ -125,11 +125,18 @@ class QlearningAgent(Player):
             investor_num = len(investment.get_investors())
             slot_left = investment.get_length() - investor_num
             state.append(slot_left)
+            
         # ship position
         for ship in self.game.ship_ls:
             state.append(ship.get_position())
-        for player in self.game.player_ls:
-            state.append(player.get_money())
+        
+        # money difference
+        money_ls = sorted([player.get_money() for player in self.game.player_ls])
+        for money in money_ls:
+            difference = self.get_money()-money
+            state.append(difference)
+            
+        # round number
         state.append(self.game.round_num)
         return state
     
