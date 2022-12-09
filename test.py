@@ -34,3 +34,6 @@ class DeepQNetwork(nn.Module):
         actions = self.fc3(x)
         print(type(actions))
         return actions
+
+a = DeepQNetwork(0.001, 4, 32, 32, 2)
+a.forward(T.tensor([1,2,3,4]))

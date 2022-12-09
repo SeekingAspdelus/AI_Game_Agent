@@ -1,3 +1,12 @@
+'''
+Author: SeekingAspdelus jz332@duke.edu
+Date: 2022-12-10 02:57:03
+LastEditors: SeekingAspdelus jz332@duke.edu
+LastEditTime: 2022-12-10 03:38:17
+FilePath: \AI_Game_Agent\Manila.py
+
+Copyright (c) 2022 by SeekingAspdelus jz332@duke.edu, All Rights Reserved. 
+'''
 import game
 import play
 import time
