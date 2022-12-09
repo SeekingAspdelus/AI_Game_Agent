@@ -2,5 +2,7 @@
 __pycache__/
 
 # test file
-
 test.py
+
+qtable_normal.json
+qtable_risk.json

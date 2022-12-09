@@ -1,7 +1,7 @@
 '''
 Author: Tianle Zhu
 Date: 2022-11-20 17:04:47
-LastEditTime: 2022-11-25 00:23:16
+LastEditTime: 2022-12-02 17:22:59
 LastEditors: Tianle Zhu
 FilePath: \AI_Game_Agent\agents.py
 '''
@@ -11,7 +11,7 @@ import util
 
 """
 State:
-A tuple of integer
+integer tuple
 Investment and corresponding idx
     Port1 : 0
     Port2 : 1
@@ -61,6 +61,8 @@ class QlearningAgent(Player):
         self.tValue = 0
         self.seed = None
         self.verbose = False
+        self.epsilon = .95
+        self.eps_step = 0.05
         self.action_val_dic = {"Port1" : 0, "Port2" : 1, "Port3" : 2,
                                "Shipyard1" : 3, "Shipyard2" : 4, "Shipyard3" : 5,
                                "Ship1" : 6, "Ship2" : 7, "Ship3" : 8,
@@ -101,7 +103,7 @@ class QlearningAgent(Player):
     
     def my_turn(self):
         # compute action with maximum Qvalue
-        action, currentQ, currentState = self.computeMax()
+        action, currentQ, currentState = self.eps_greedy()
         # compute Reward
         R = self.computeReward(action)
         # take the action
@@ -130,8 +132,24 @@ class QlearningAgent(Player):
             state.append(player.get_money())
         state.append(self.game.round_num)
         return state
-
+    
+    def eps_greedy(self):
+        eps_prob = np.random.rand()
+        if eps_prob < self.epsilon:
+            state = self.get_state()
+            action_ls = self.get_action()
+            action = util.randomChoice(action_ls)
+            action_val = self.convertAction(action)
+            s_a_pair = state + [action_val]
+            qvalue = self.get_qvalue(s_a_pair)
+            self.epsilon -= self.eps_step
+            return action, qvalue, state
+        else:
+            self.epsilon -= self.eps_step
+            return self.computeMax()
+        
     def computeMax(self):
+        
         # compute the maximum Qvalue based current state and available actions
         state = self.get_state()
         action_ls = self.get_action()
@@ -160,11 +178,11 @@ class QlearningAgent(Player):
         ship_pos_mid = ship_pos_ls_sort[1]
         ship_pos_min = ship_pos_ls_sort[0]
 
-        if(action.get_type() == "ship"):
+        if action.get_type() == "ship":
             payback = action.get_payback()/(len(action.get_investors())+1)-action.get_cost()
             reward = payback + self.factor*payback*(3.5*(3-self.game.current_round)+action.get_position()-13)
 
-        elif((action.get_type() == "port")):
+        elif action.get_type() == "port":
             payback = action.get_payback() - action.get_cost()
             if(action.name == "Port1"):
                 reward = payback + self.factor*payback*(3.5*(3-self.game.current_round)+ship_pos_max-13)
@@ -174,11 +192,11 @@ class QlearningAgent(Player):
                 reward = payback + self.factor*payback*(3.5*(3-self.game.current_round)+ship_pos_min-13)
                 
 
-        elif(action.get_type() == "shipyard"):
+        elif action.get_type() == "shipyard":
             payback = action.get_payback() - action.get_cost()
-            if(action.name == "Shipyard1"):
+            if action.name == "Shipyard1":
                 reward = payback - self.factor*payback*(3.5*(3-self.game.current_round)+ship_pos_min-13)
-            elif(action.name == "Shipyard2"):
+            elif action.name == "Shipyard2":
                 reward = payback - self.factor*payback*(3.5*(3-self.game.current_round)+ship_pos_mid-13)
             else:
                 reward = payback - self.factor*payback*(3.5*(3-self.game.current_round)+ship_pos_max-13)
