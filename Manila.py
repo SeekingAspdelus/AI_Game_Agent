@@ -1,8 +1,8 @@
 '''
 Author: SeekingAspdelus jz332@duke.edu
 Date: 2022-12-10 02:57:03
-LastEditors: SeekingAspdelus jz332@duke.edu
-LastEditTime: 2022-12-10 03:38:17
+LastEditors: Tianle Zhu
+LastEditTime: 2022-12-10 04:04:28
 FilePath: \AI_Game_Agent\Manila.py
 
 Copyright (c) 2022 by SeekingAspdelus jz332@duke.edu, All Rights Reserved. 
@@ -11,14 +11,20 @@ import game
 import play
 import time
 import agents
+import dqn
 
 def main(args):
     # create a game
     g = game.Game(args.verbose)
     # create AI players
-    player1 = agents.QlearningAgent("Player1", 30, None, g)
-    player2 = agents.QlearningAgent("Player2", 30, None, g)
-    player3 = agents.QlearningAgent("Player3", 30, None, g)
+    if args.mode == 'Q_learning':
+        player1 = agents.QlearningAgent("Player1", 30, None, g)
+        player2 = agents.QlearningAgent("Player2", 30, None, g)
+        player3 = agents.QlearningAgent("Player3", 30, None, g)
+    elif args.mode == 'DQN':
+        player1 = dqn.DQNAgent("Player1", 30, None, g)
+        player2 = dqn.DQNAgent("Player2", 30, None, g)
+        player3 = dqn.DQNAgent("Player3", 30, None, g)
     player1.set_factor(0.3)
     player2.set_factor(1)
     player3.set_factor(1.8)
@@ -54,9 +60,12 @@ def main(args):
             'Player2 winrate: {:.2f}%'.format(player2.winrate/args.epoch*100),
             'Player3 winrate: {:.2f}%'.format(player3.winrate/args.epoch*100), sep='\t')    
     # save the qtable
-    print('------ Saving ------')
-    player2.saveQtable("qtable_normal.json")
-    player3.saveQtable("qtable_conservative.json")
+    if args.mode == 'Q_learning':
+        print('------ Saving ------')
+        player2.saveQtable("qtable_normal.json")
+        player3.saveQtable("qtable_conservative.json")
+    elif args.mode == 'DQN':
+        return
     
 
 if __name__ == '__main__':
@@ -72,6 +81,7 @@ if __name__ == '__main__':
 
     # Game options
     parser.add_argument('--epoch', type=int, default=100, help = "number of epochs")
+    parser.add_argument('--mode', type = str, default='Q_learning', help = "use what method")
     args = parser.parse_args()
 
     print(args)

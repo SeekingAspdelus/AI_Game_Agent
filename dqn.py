@@ -1,7 +1,7 @@
 '''
 Author: Tianle Zhu
 Date: 2022-11-20 16:56:22
-LastEditTime: 2022-12-10 03:26:11
+LastEditTime: 2022-12-10 04:42:57
 LastEditors: Tianle Zhu
 FilePath: \AI_Game_Agent\dqn.py
 '''
@@ -10,7 +10,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 import torch.optim as optim
 import numpy as np
-import play
+import agents
 
 class DeepQNetwork(nn.Module):
     def __init__(self, lr, input_dims, fc1_dims, fc2_dims, n_actions):
@@ -32,10 +32,9 @@ class DeepQNetwork(nn.Module):
         x = F.relu(self.fc1(state))
         x = F.relu(self.fc2(x))
         actions = self.fc3(x)
-        print(type(actions))
         return actions
     
-class Agent(play.Player):
+class DQNAgent(agents.QlearningAgent):
     def __init__(self, name, money, color, game, gamma=0.9, epsilon=1.0, lr=0.001, input_dims=16, batch_size=30, n_actions = 10, max_mem_size=100000, eps_end=0.05, eps_dec=5e-4):
         super().__init__(name,money,color,game)
         self.gamma = gamma
@@ -71,15 +70,21 @@ class Agent(play.Player):
 
         self.mem_cntr += 1
 
-    def get_action(self, observation):
+    def get_available_action(self, observation):
+        available_action = self.get_action()
         if np.random.random() > self.epsilon:
             state = T.tensor(observation).to(self.Q_eval.device)
             actions = self.Q_eval.forward(state)
-            action = T.argmax(actions).item()
+            sorted_actions = T.argsort(actions)
+            for action_idx in sorted_actions:
+                action = self.game.action_ls[action_idx.item()]
+                if action in available_action:
+                    return action_idx
         else:
-            action = np.random.choice(self.action_space)
+            action = np.random.choice(available_action)
+            action_idx = self.convertAction(action)
 
-        return action
+        return action_idx
 
     def learn(self):
         if self.mem_cntr < self.batch_size:
@@ -118,13 +123,15 @@ class Agent(play.Player):
             
     def my_turn(self):
         state = self.get_state()
-        action_idx = self.get_action(state)
+        state = np.array(state,dtype=np.float32)
+        action_idx = self.get_available_action(state)
         action = self.game.action_ls[action_idx]
+        #print(action_idx,action.name)
+        reward = self.computeReward(action)
         action.invest(self)
         if self.verbose:
             print("{agent_name} invested in {investment_name}".format(agent_name=self.name, investment_name=action.name))
         nextState = self.get_state()
-        reward = self.computeReward(action)
-        self.store_transition(state,reward,action,0.0,nextState)
+        self.store_transition(state,reward,action_idx,0.0,nextState)
         self.learn()
         return
