@@ -41,13 +41,14 @@ def main(args):
     player_ls = [player1, player2, player3]
     g.add_player(player_ls)
     # start the train
+    print('------ Training ------')
     for epoch in range(args.epoch):
-        print('------ Training ------')
         t_start = time.time()
         g.start()
-        print("Player1's final money:", int(player_ls[0].money))
-        print("Player2's final money:", int(player_ls[1].money))
-        print("Player3's final money:", int(player_ls[2].money))
+        if args.verbose:
+            print("Player1's final money:", int(player_ls[0].money))
+            print("Player2's final money:", int(player_ls[1].money))
+            print("Player3's final money:", int(player_ls[2].money))
         money_ls = [player_ls[0].money, player_ls[1].money, player_ls[2].money]
         player_ls[money_ls.index(max(money_ls))].winrate += 1
         g = game.Game(args.verbose)
@@ -61,11 +62,13 @@ def main(args):
             'Player3 winrate: {:.2f}%'.format(player3.winrate/args.epoch*100), sep='\t')    
     # save the qtable
     if args.mode == 'Q_learning':
-        print('------ Saving ------')
+        print('------ Saving Q_learning------')
         player2.saveQtable("qtable_normal.json")
         player3.saveQtable("qtable_conservative.json")
     elif args.mode == 'DQN':
-        return
+        print('------ Saving DQN------')
+        player2.saveWeights("dqn_normal.pth")
+        player3.saveWeights("dqn_conservative.pth")
     
 
 if __name__ == '__main__':

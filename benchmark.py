@@ -11,13 +11,20 @@ import argparse
 import game
 import agents
 import benchmark_agent
+import dqn
 
 def main(args):
         g = game.Game(False)
-        player1 = agents.QlearningAgent("Player2", 30, None, g)
-        player1.set_verbose(args.verbose)
-        print("Loading qtable_"+ args.mode+".json")
-        player1.loadQtable("qtable_"+ args.mode+".json")
+        if args.mode == 'Q_learning':
+            player1 = agents.QlearningAgent("Player1", 30, None, g)
+            player1.set_verbose(args.verbose)
+            print("Loading qtable_"+ args.behavior+".json")
+            player1.loadQtable("qtable_"+ args.behavior+".json")
+        elif args.mode == "DQN":
+            player1 = dqn.DQNAgent("Player1", 30, None, g)
+            player1.set_verbose(args.verbose)
+            print("Loading weights_"+ args.behavior+".pth")
+            player1.loadWeights("dqn_"+ args.behavior+".pth")
         player2 = benchmark_agent.benchmark_agents("Player2", 30, None, g)
         player2.set_verbose(args.verbose)
         player3 = benchmark_agent.benchmark_agents("Player3", 30, None, g)
@@ -48,7 +55,8 @@ if __name__ == '__main__':
 
     parser = argparse.ArgumentParser(description='Benchmarking script for the Manila')
     parser.add_argument('--epoch', default=1000, type=int, help='Number of rounds to play')
-    parser.add_argument('--mode', default = 'normal', type=str, help='Mode of the agents (normal, conservative, aggressive)')
+    parser.add_argument('--mode', default='Q_learning', type=str, help='What method you want to use (Q_learning, DQN)')
+    parser.add_argument('--behavior', default = 'normal', type=str, help='Mode of the agents (normal, conservative, aggressive)')
     parser.add_argument('--verbose', default=False, type=bool, help='Whether to print the game log')
     args = parser.parse_args()
     print(args)
