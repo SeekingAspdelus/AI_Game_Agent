@@ -1,7 +1,7 @@
 '''
 Author: Tianle Zhu
 Date: 2022-11-20 16:56:22
-LastEditTime: 2022-12-10 04:42:57
+LastEditTime: 2022-12-10 14:53:33
 LastEditors: Tianle Zhu
 FilePath: \AI_Game_Agent\dqn.py
 '''
@@ -69,7 +69,7 @@ class DQNAgent(agents.QlearningAgent):
         self.terminal_memory[index] = terminal
 
         self.mem_cntr += 1
-
+    
     def get_available_action(self, observation):
         available_action = self.get_action()
         if np.random.random() > self.epsilon:
@@ -135,3 +135,15 @@ class DQNAgent(agents.QlearningAgent):
         self.store_transition(state,reward,action_idx,0.0,nextState)
         self.learn()
         return
+    
+    def saveWeights(self, filepath):
+        if ".pth" in filepath or ".pt" in filepath:
+            T.save(self.Q_eval.state_dict(), filepath)
+        else:
+            print("invalid save path")
+            
+    def loadWeights(self, filepath):
+        if ".pth" in filepath or ".pt" in filepath:
+            self.Q_eval.load_state_dict(T.load(filepath))
+        else:
+            print("invalid save path")
