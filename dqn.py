@@ -1,7 +1,7 @@
 '''
 Author: Tianle Zhu
 Date: 2022-11-20 16:56:22
-LastEditTime: 2022-12-10 14:53:33
+LastEditTime: 2022-12-13 15:30:01
 LastEditors: Tianle Zhu
 FilePath: \AI_Game_Agent\dqn.py
 '''
@@ -35,7 +35,7 @@ class DeepQNetwork(nn.Module):
         return actions
     
 class DQNAgent(agents.QlearningAgent):
-    def __init__(self, name, money, color, game, gamma=0.9, epsilon=1.0, lr=0.001, input_dims=16, batch_size=30, n_actions = 10, max_mem_size=100000, eps_end=0.05, eps_dec=5e-4):
+    def __init__(self, name, money, color, game, gamma=0.9, epsilon=1.0, lr=0.001, input_dims=16, batch_size=30, n_actions = 10, max_mem_size=100000, eps_end=0.05, eps_dec=5e-4, tau=0.005):
         super().__init__(name,money,color,game)
         self.gamma = gamma
         self.epsilon = epsilon
@@ -47,11 +47,19 @@ class DQNAgent(agents.QlearningAgent):
         self.batch_size = batch_size
         self.mem_cntr = 0
         self.iter_cntr = 0
+        self.tau = 0.005
         #self.replace_target = 100
-
-        self.Q_eval = DeepQNetwork(lr, n_actions=n_actions,
+        
+        # initialize q network and taret q network
+        self.network = DeepQNetwork(lr, n_actions=n_actions,
                                    input_dims=input_dims,
                                    fc1_dims=16, fc2_dims=12)
+        self.target_net = DeepQNetwork(lr, n_actions=n_actions,
+                                   input_dims=input_dims,
+                                   fc1_dims=16, fc2_dims=12)
+        self.target_net.load_state_dict(self.network.state_dict())
+        
+        # initialize replay buffer
         self.state_memory = np.zeros((self.mem_size, input_dims),
                                      dtype=np.float32)
         self.new_state_memory = np.zeros((self.mem_size, input_dims),
@@ -73,8 +81,8 @@ class DQNAgent(agents.QlearningAgent):
     def get_available_action(self, observation):
         available_action = self.get_action()
         if np.random.random() > self.epsilon:
-            state = T.tensor(observation).to(self.Q_eval.device)
-            actions = self.Q_eval.forward(state)
+            state = T.tensor(observation).to(self.network.device)
+            actions = self.network.forward(state)
             sorted_actions = T.argsort(actions)
             for action_idx in sorted_actions:
                 action = self.game.action_ls[action_idx.item()]
@@ -90,32 +98,33 @@ class DQNAgent(agents.QlearningAgent):
         if self.mem_cntr < self.batch_size:
             return
 
-        self.Q_eval.optimizer.zero_grad()
+        self.network.optimizer.zero_grad()
 
         max_mem = min(self.mem_cntr, self.mem_size)
 
         batch = np.random.choice(max_mem, self.batch_size, replace=False)
         batch_index = np.arange(self.batch_size, dtype=np.int32)
 
-        state_batch = T.tensor(self.state_memory[batch]).to(self.Q_eval.device)
+        state_batch = T.tensor(self.state_memory[batch]).to(self.network.device)
         new_state_batch = T.tensor(
-                self.new_state_memory[batch]).to(self.Q_eval.device)
+                self.new_state_memory[batch]).to(self.network.device)
         action_batch = self.action_memory[batch]
         reward_batch = T.tensor(
-                self.reward_memory[batch]).to(self.Q_eval.device)
+                self.reward_memory[batch]).to(self.network.device)
         terminal_batch = T.tensor(
-                self.terminal_memory[batch]).to(self.Q_eval.device)
+                self.terminal_memory[batch]).to(self.network.device)
 
-        q_eval = self.Q_eval.forward(state_batch)[batch_index, action_batch]
-        q_next = self.Q_eval.forward(new_state_batch)
+        q_eval = self.network.forward(state_batch)[batch_index, action_batch]
+        q_next = self.target_net.forward(new_state_batch)
         q_next[terminal_batch] = 0.0
         
         
         q_target = reward_batch + self.gamma*T.max(q_next, dim=1)[0]
 
-        loss = self.Q_eval.loss(q_target, q_eval).to(self.Q_eval.device)
+        loss = self.network.loss(q_target, q_eval).to(self.network.device)
+        print(loss.item())
         loss.backward()
-        self.Q_eval.optimizer.step()
+        self.network.optimizer.step()
 
         self.iter_cntr += 1
         self.epsilon = self.epsilon - self.eps_dec \
@@ -134,16 +143,22 @@ class DQNAgent(agents.QlearningAgent):
         nextState = self.get_state()
         self.store_transition(state,reward,action_idx,0.0,nextState)
         self.learn()
+        # soft update the target network
+        target_state_dict = self.target_net.state_dict()
+        net_state_dict = self.network.state_dict()
+        for key in net_state_dict:
+            target_state_dict[key] = net_state_dict[key] * self.tau + target_state_dict[key] * (1-self.tau)
+        self.target_net.load_state_dict(target_state_dict)
         return
     
     def saveWeights(self, filepath):
         if ".pth" in filepath or ".pt" in filepath:
-            T.save(self.Q_eval.state_dict(), filepath)
+            T.save(self.network.state_dict(), filepath)
         else:
             print("invalid save path")
             
     def loadWeights(self, filepath):
         if ".pth" in filepath or ".pt" in filepath:
-            self.Q_eval.load_state_dict(T.load(filepath))
+            self.network.load_state_dict(T.load(filepath))
         else:
             print("invalid save path")
