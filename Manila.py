@@ -2,7 +2,7 @@
 Author: SeekingAspdelus jz332@duke.edu
 Date: 2022-12-10 02:57:03
 LastEditors: Tianle Zhu
-LastEditTime: 2022-12-15 06:51:58
+LastEditTime: 2022-12-15 06:54:08
 FilePath: \AI_Game_Agent\Manila.py
 
 Copyright (c) 2022 by SeekingAspdelus jz332@duke.edu, All Rights Reserved. 
@@ -68,13 +68,16 @@ def main(args):
     import matplotlib.pyplot as plt
     import numpy as np
     
-    plt.figure()
+    plt.figure(figsize=(24,9))
     plt.subplot(131)
     plt.plot(np.arange(len(loss1)),loss1)
+    plt.title("loss of player1")
     plt.subplot(132)
     plt.plot(np.arange(len(loss2)),loss2)
+    plt.title("loss of player2")
     plt.subplot(133)
     plt.plot(np.arange(len(loss3)),loss3)
+    plt.title("loss of player3")
     plt.show()
     # save the qtable
     if args.mode == 'Q_learning':
