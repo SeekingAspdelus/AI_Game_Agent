@@ -2,7 +2,7 @@
 Author: SeekingAspdelus jz332@duke.edu
 Date: 2022-12-10 02:57:03
 LastEditors: Tianle Zhu
-LastEditTime: 2022-12-10 04:04:28
+LastEditTime: 2022-12-15 06:51:58
 FilePath: \AI_Game_Agent\Manila.py
 
 Copyright (c) 2022 by SeekingAspdelus jz332@duke.edu, All Rights Reserved. 
@@ -59,7 +59,23 @@ def main(args):
         print('Epoch {:02d} | Time: {:.4f}'.format(epoch+1, t_end-t_start))
     print(  'Player1 winrate: {:.2f}%'.format(player1.winrate/args.epoch*100),
             'Player2 winrate: {:.2f}%'.format(player2.winrate/args.epoch*100),
-            'Player3 winrate: {:.2f}%'.format(player3.winrate/args.epoch*100), sep='\t')    
+            'Player3 winrate: {:.2f}%'.format(player3.winrate/args.epoch*100), sep='\t')
+    
+    loss1 = player1.loss_ls
+    loss2 = player2.loss_ls
+    loss3 = player3.loss_ls
+    
+    import matplotlib.pyplot as plt
+    import numpy as np
+    
+    plt.figure()
+    plt.subplot(131)
+    plt.plot(np.arange(len(loss1)),loss1)
+    plt.subplot(132)
+    plt.plot(np.arange(len(loss2)),loss2)
+    plt.subplot(133)
+    plt.plot(np.arange(len(loss3)),loss3)
+    plt.show()
     # save the qtable
     if args.mode == 'Q_learning':
         print('------ Saving Q_learning------')

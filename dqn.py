@@ -1,7 +1,7 @@
 '''
 Author: Tianle Zhu
 Date: 2022-11-20 16:56:22
-LastEditTime: 2022-12-13 15:30:01
+LastEditTime: 2022-12-15 06:26:26
 LastEditors: Tianle Zhu
 FilePath: \AI_Game_Agent\dqn.py
 '''
@@ -48,6 +48,7 @@ class DQNAgent(agents.QlearningAgent):
         self.mem_cntr = 0
         self.iter_cntr = 0
         self.tau = 0.005
+        self.loss_ls = []
         #self.replace_target = 100
         
         # initialize q network and taret q network
@@ -123,6 +124,7 @@ class DQNAgent(agents.QlearningAgent):
 
         loss = self.network.loss(q_target, q_eval).to(self.network.device)
         #print(loss.item())
+        self.loss_ls.append(loss.item())
         loss.backward()
         self.network.optimizer.step()
 
