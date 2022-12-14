@@ -63,10 +63,12 @@ def main(args):
     # save the qtable
     if args.mode == 'Q_learning':
         print('------ Saving Q_learning------')
+        player1.saveQtable("qtable_aggressive.json")
         player2.saveQtable("qtable_normal.json")
         player3.saveQtable("qtable_conservative.json")
     elif args.mode == 'DQN':
         print('------ Saving DQN------')
+        player1.saveWeights("dqn_aggressive.pth")
         player2.saveWeights("dqn_normal.pth")
         player3.saveWeights("dqn_conservative.pth")
     

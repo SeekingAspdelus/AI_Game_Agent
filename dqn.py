@@ -122,7 +122,7 @@ class DQNAgent(agents.QlearningAgent):
         q_target = reward_batch + self.gamma*T.max(q_next, dim=1)[0]
 
         loss = self.network.loss(q_target, q_eval).to(self.network.device)
-        print(loss.item())
+        #print(loss.item())
         loss.backward()
         self.network.optimizer.step()
 

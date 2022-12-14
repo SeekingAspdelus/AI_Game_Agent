@@ -47,6 +47,8 @@ def main(args):
             g.add_player(player_ls)
             t_end = time.time()
             print('Epoch {:02d} | Time: {:.4f}'.format(epoch+1, t_end-t_start))
+        print('------ Result ------')
+        print('behavior: {str} | mode: {str} | epoch', args.behavior, '  mode:', args.mode, sep='\t')
         print(  'Player1 winrate: {:.2f}%'.format(player1.winrate/args.epoch*100),
                 'Player2 winrate: {:.2f}%'.format(player2.winrate/args.epoch*100),
                 'Player3 winrate: {:.2f}%'.format(player3.winrate/args.epoch*100), sep='\t')    

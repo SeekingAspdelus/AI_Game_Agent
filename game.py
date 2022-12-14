@@ -86,7 +86,7 @@ class Game():
         ship_to_port_ls = []
         ship_sink_ls = []
         for ship in self.ship_ls:
-            if ship.get_position() > 13:
+            if ship.get_position() > 10:
                 ship_to_port_ls.append(ship)
             else:
                 ship_sink_ls.append(ship)

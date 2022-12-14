@@ -42,7 +42,7 @@ class ship():
         
         self.cost = cost_ls
         self.payback = payback
-        self.position = 3
+        self.position = 0
         self.available = True
         self.investors = []
         self.invest_idx = 0
