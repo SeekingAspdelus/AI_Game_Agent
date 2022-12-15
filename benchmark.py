@@ -1,8 +1,8 @@
 '''
 Author: SeekingAspdelus jz332@duke.edu
 Date: 2022-12-10 02:25:59
-LastEditors: Tianle Zhu
-LastEditTime: 2022-12-15 12:36:42
+LastEditors: SeekingAspdelus jz332@duke.com
+LastEditTime: 2022-12-16 00:02:40
 FilePath: \AI_Game_Agent\benchmark.py
 Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 '''
@@ -49,7 +49,7 @@ def main(args):
             t_end = time.time()
             print('Epoch {:02d} | Time: {:.4f}'.format(epoch+1, t_end-t_start))
         print('------ Result ------')
-        print('behavior: {str} | mode: {str} | epoch', args.behavior, '  mode:', args.mode, sep='\t')
+        print('behavior: {} | mode: {} | epoch: {}'.format(args.behavior, args.mode, args.epoch) , sep='\t')
         print(  'Player1 winrate: {:.2f}%'.format(player1.winrate/args.epoch*100),
                 'Player2 winrate: {:.2f}%'.format(player2.winrate/args.epoch*100),
                 'Player3 winrate: {:.2f}%'.format(player3.winrate/args.epoch*100), sep='\t')    
