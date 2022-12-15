@@ -1,7 +1,7 @@
 '''
 Author: Tianle Zhu
 Date: 2022-11-20 16:56:22
-LastEditTime: 2022-12-15 06:26:26
+LastEditTime: 2022-12-15 12:02:42
 LastEditors: Tianle Zhu
 FilePath: \AI_Game_Agent\dqn.py
 '''
@@ -140,6 +140,7 @@ class DQNAgent(agents.QlearningAgent):
         #print(action_idx,action.name)
         reward = self.computeReward(action)
         action.invest(self)
+        self.money -= action.get_cost()
         if self.verbose:
             print("{agent_name} invested in {investment_name}".format(agent_name=self.name, investment_name=action.name))
         nextState = self.get_state()
