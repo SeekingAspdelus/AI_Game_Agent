@@ -9,6 +9,7 @@ import game
 import agents
 import play
 import argparse
+import dqn
 
 def main(args):
     g = game.Game(True)
@@ -21,10 +22,10 @@ def main(args):
         player2.loadQtable("qtable_"+ args.behavior1 +".json")
         player3.loadQtable("qtable_"+ args.behavior2 +".json")
     if args.mode == 'DQN':
-        player2 = agents.DQNAgent("Player2", 30, None, g)
-        player3 = agents.DQNAgent("Player3", 30, None, g)
-        player2.loadQtable("dqn_"+ args.behavior1 +".pth")
-        player3.loadQtable("dqn_"+ args.behavior2 +".pth")
+        player2 = dqn.DQNAgent("Player2", 30, None, g)
+        player3 = dqn.DQNAgent("Player3", 30, None, g)
+        player2.loadWeights("dqn_"+ args.behavior1 +".pth")
+        player3.loadWeights("dqn_"+ args.behavior2 +".pth")
         player2.set_verbose(True)
         player3.set_verbose(True)
     player_ls = [player1, player2, player3]
