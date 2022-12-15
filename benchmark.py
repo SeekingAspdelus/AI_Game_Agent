@@ -2,7 +2,7 @@
 Author: SeekingAspdelus jz332@duke.edu
 Date: 2022-12-10 02:25:59
 LastEditors: Tianle Zhu
-LastEditTime: 2022-12-10 03:55:22
+LastEditTime: 2022-12-15 12:36:42
 FilePath: \AI_Game_Agent\benchmark.py
 Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 '''
@@ -23,6 +23,7 @@ def main(args):
         elif args.mode == "DQN":
             player1 = dqn.DQNAgent("Player1", 30, None, g)
             player1.set_verbose(args.verbose)
+            player1.train = False
             print("Loading weights_"+ args.behavior+".pth")
             player1.loadWeights("dqn_"+ args.behavior+".pth")
         player2 = benchmark_agent.benchmark_agents("Player2", 30, None, g)

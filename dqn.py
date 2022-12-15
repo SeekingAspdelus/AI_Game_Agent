@@ -1,7 +1,7 @@
 '''
 Author: Tianle Zhu
 Date: 2022-11-20 16:56:22
-LastEditTime: 2022-12-15 12:06:20
+LastEditTime: 2022-12-15 12:35:21
 LastEditors: Tianle Zhu
 FilePath: \AI_Game_Agent\dqn.py
 '''
@@ -49,6 +49,7 @@ class DQNAgent(agents.QlearningAgent):
         self.iter_cntr = 0
         self.tau = 0.005
         self.loss_ls = []
+        self.train = True
         #self.replace_target = 100
         
         # initialize q network and taret q network
@@ -81,7 +82,11 @@ class DQNAgent(agents.QlearningAgent):
     
     def get_available_action(self, observation):
         available_action = self.get_action()
-        if np.random.random() > self.epsilon:
+        if self.train:
+            r = np.random.random()
+        else:
+            r = 1
+        if r >= self.epsilon:
             state = T.tensor(observation).to(self.network.device)
             actions = self.network.forward(state)
             sorted_actions = T.argsort(actions)
@@ -145,7 +150,8 @@ class DQNAgent(agents.QlearningAgent):
             print("{agent_name} invested in {investment_name}".format(agent_name=self.name, investment_name=action.name))
         nextState = self.get_state()
         self.store_transition(state,reward,action_idx,0.0,nextState)
-        self.learn()
+        if self.train:
+            self.learn()
         # soft update the target network
         target_state_dict = self.target_net.state_dict()
         net_state_dict = self.network.state_dict()
