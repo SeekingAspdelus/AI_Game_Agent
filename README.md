@@ -5,7 +5,7 @@ Reinforcement learing agents playing the board game [_Manile_](<https://en.wikip
 
 ## Description
 
-We developed two agents using Q Learning and Deep Q network. Each agent has three different behaviors: normal, conservative, and aggressive.\
+We developed two agents using Q Learning and Deep Q network. Each agent has three different behaviors: normal, conservative, and aggressive.
 
 Each agent supports playing with human or our evaluation benchamrk.
 
@@ -23,6 +23,12 @@ Each agent supports playing with human or our evaluation benchamrk.
 
 ```
 git clone git@github.com:SeekingAspdelus/AI_Game_Agent.git
+```
+
+- Install environment
+
+```
+pip install -r requirements.txt
 ```
 
 ### Executing programs
