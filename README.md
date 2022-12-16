@@ -72,6 +72,7 @@ python human_AI_Combat.py
 - Agents training file: **_Manila.py_**
 - Agents evaluation file: **_benchmark.py_**
 - Human AI combat file: **_human_AI_Combat.py_**
+- Helper functions: **_util.py_**
 
 ## Authors
 
