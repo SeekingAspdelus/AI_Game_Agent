@@ -2,11 +2,14 @@
 Author: SeekingAspdelus jz332@duke.edu
 Date: 2022-12-10 02:57:03
 LastEditors: Tianle Zhu
-LastEditTime: 2022-12-15 06:54:08
+LastEditTime: 2022-12-16 19:07:52
 FilePath: \AI_Game_Agent\Manila.py
 
 Copyright (c) 2022 by SeekingAspdelus jz332@duke.edu, All Rights Reserved. 
 '''
+import matplotlib.pyplot as plt
+import numpy as np
+    
 import game
 import play
 import time
@@ -61,24 +64,23 @@ def main(args):
             'Player2 winrate: {:.2f}%'.format(player2.winrate/args.epoch*100),
             'Player3 winrate: {:.2f}%'.format(player3.winrate/args.epoch*100), sep='\t')
     
-    loss1 = player1.loss_ls
-    loss2 = player2.loss_ls
-    loss3 = player3.loss_ls
+    # plot loss for DQN agents
+    if args.mode == "DQN":
+        loss1 = player1.loss_ls
+        loss2 = player2.loss_ls
+        loss3 = player3.loss_ls
+        plt.figure(figsize=(24,9))
+        plt.subplot(131)
+        plt.plot(np.arange(len(loss1)),loss1)
+        plt.title("loss of player1")
+        plt.subplot(132)
+        plt.plot(np.arange(len(loss2)),loss2)
+        plt.title("loss of player2")
+        plt.subplot(133)
+        plt.plot(np.arange(len(loss3)),loss3)
+        plt.title("loss of player3")
+        plt.show()
     
-    import matplotlib.pyplot as plt
-    import numpy as np
-    
-    plt.figure(figsize=(24,9))
-    plt.subplot(131)
-    plt.plot(np.arange(len(loss1)),loss1)
-    plt.title("loss of player1")
-    plt.subplot(132)
-    plt.plot(np.arange(len(loss2)),loss2)
-    plt.title("loss of player2")
-    plt.subplot(133)
-    plt.plot(np.arange(len(loss3)),loss3)
-    plt.title("loss of player3")
-    plt.show()
     # save the qtable
     if args.mode == 'Q_learning':
         print('------ Saving Q_learning------')

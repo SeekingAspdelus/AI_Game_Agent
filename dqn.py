@@ -1,7 +1,7 @@
 '''
 Author: Tianle Zhu
 Date: 2022-11-20 16:56:22
-LastEditTime: 2022-12-15 12:35:21
+LastEditTime: 2022-12-16 18:46:41
 LastEditors: Tianle Zhu
 FilePath: \AI_Game_Agent\dqn.py
 '''
@@ -35,60 +35,65 @@ class DeepQNetwork(nn.Module):
         return actions
     
 class DQNAgent(agents.QlearningAgent):
-    def __init__(self, name, money, color, game, gamma=0.9, epsilon=1.0, lr=0.001, input_dims=16, batch_size=30, n_actions = 10, max_mem_size=100000, eps_end=0.05, eps_dec=5e-4, tau=0.005):
+    def __init__(self, name, money, color, game, gamma=0.9, epsilon=1.0, lr=0.001, input_dims=16, batch_size=30, n_actions = 10, max_memory=100000, eps_min=0.05, eps_step=5e-4, tau=0.005):
         super().__init__(name,money,color,game)
         self.gamma = gamma
         self.epsilon = epsilon
-        self.eps_min = eps_end
-        self.eps_dec = eps_dec
+        self.eps_min = eps_min
+        self.eps_step = eps_step
         self.lr = lr
         self.action_space = [i for i in range(n_actions)]
-        self.mem_size = max_mem_size
+        self.memory_size = max_memory
         self.batch_size = batch_size
-        self.mem_cntr = 0
-        self.iter_cntr = 0
-        self.tau = 0.005
+        self.memoryCounter = 0
+        self.counter = 0
+        self.tau = tau
         self.loss_ls = []
-        self.train = True
-        #self.replace_target = 100
+        self.train_flag = True # stop espilon greedy and training if the train_flag is False
         
         # initialize q network and taret q network
-        self.network = DeepQNetwork(lr, n_actions=n_actions,
+        self.policy_network = DeepQNetwork(lr, n_actions=n_actions,
                                    input_dims=input_dims,
                                    fc1_dims=16, fc2_dims=12)
         self.target_net = DeepQNetwork(lr, n_actions=n_actions,
                                    input_dims=input_dims,
                                    fc1_dims=16, fc2_dims=12)
-        self.target_net.load_state_dict(self.network.state_dict())
+        self.target_net.load_state_dict(self.policy_network.state_dict())
         
         # initialize replay buffer
-        self.state_memory = np.zeros((self.mem_size, input_dims),
+        self.state_memory = np.zeros((self.memory_size, input_dims),
                                      dtype=np.float32)
-        self.new_state_memory = np.zeros((self.mem_size, input_dims),
+        self.new_state_memory = np.zeros((self.memory_size, input_dims),
                                          dtype=np.float32)
-        self.action_memory = np.zeros(self.mem_size, dtype=np.int32)
-        self.reward_memory = np.zeros(self.mem_size, dtype=np.float32)
-        self.terminal_memory = np.zeros(self.mem_size, dtype=np.bool)
+        self.action_memory = np.zeros(self.memory_size, dtype=np.int32)
+        self.reward_memory = np.zeros(self.memory_size, dtype=np.float32)
+        self.terminal_memory = np.zeros(self.memory_size, dtype=np.bool)
 
+    def set_train_flag(self, flag):
+        self.train_flag = flag
+        return
+    
     def store_transition(self, state, reward,action, terminal, state_):
-        index = self.mem_cntr % self.mem_size
+        index = self.memoryCounter % self.memory_size
         self.state_memory[index] = state
         self.new_state_memory[index] = state_
         self.reward_memory[index] = reward
         self.action_memory[index] = action
         self.terminal_memory[index] = terminal
 
-        self.mem_cntr += 1
+        self.memoryCounter += 1
     
     def get_available_action(self, observation):
+        # get available actions from environment
         available_action = self.get_action()
-        if self.train:
-            r = np.random.random()
+        # check if training or testing
+        if self.train_flag:
+            randomNumber = np.random.random()
         else:
-            r = 1
-        if r >= self.epsilon:
-            state = T.tensor(observation).to(self.network.device)
-            actions = self.network.forward(state)
+            randomNumber = 1
+        if randomNumber >= self.epsilon:
+            state = T.tensor(observation).to(self.policy_network.device)
+            actions = self.policy_network.forward(state)
             sorted_actions = T.argsort(actions)
             for action_idx in sorted_actions:
                 action = self.game.action_ls[action_idx.item()]
@@ -101,40 +106,38 @@ class DQNAgent(agents.QlearningAgent):
         return action_idx
 
     def learn(self):
-        if self.mem_cntr < self.batch_size:
+        if self.memoryCounter < self.batch_size:
             return
 
-        self.network.optimizer.zero_grad()
+        self.policy_network.optimizer.zero_grad()
 
-        max_mem = min(self.mem_cntr, self.mem_size)
+        max_mem = min(self.memoryCounter, self.memory_size)
 
         batch = np.random.choice(max_mem, self.batch_size, replace=False)
         batch_index = np.arange(self.batch_size, dtype=np.int32)
 
-        state_batch = T.tensor(self.state_memory[batch]).to(self.network.device)
+        state_batch = T.tensor(self.state_memory[batch]).to(self.policy_network.device)
         new_state_batch = T.tensor(
-                self.new_state_memory[batch]).to(self.network.device)
+                self.new_state_memory[batch]).to(self.policy_network.device)
         action_batch = self.action_memory[batch]
         reward_batch = T.tensor(
-                self.reward_memory[batch]).to(self.network.device)
+                self.reward_memory[batch]).to(self.policy_network.device)
         terminal_batch = T.tensor(
-                self.terminal_memory[batch]).to(self.network.device)
+                self.terminal_memory[batch]).to(self.policy_network.device)
 
-        q_eval = self.network.forward(state_batch)[batch_index, action_batch]
+        q_eval = self.policy_network.forward(state_batch)[batch_index, action_batch]
         q_next = self.target_net.forward(new_state_batch)
         q_next[terminal_batch] = 0.0
-        
-        
         q_target = reward_batch + self.gamma*T.max(q_next, dim=1)[0]
 
-        loss = self.network.loss(q_target, q_eval).to(self.network.device)
+        loss = self.policy_network.loss(q_target, q_eval).to(self.policy_network.device)
         #print(loss.item())
         self.loss_ls.append(loss.item())
         loss.backward()
-        self.network.optimizer.step()
+        self.policy_network.optimizer.step()
 
-        self.iter_cntr += 1
-        self.epsilon = self.epsilon - self.eps_dec \
+        self.counter += 1
+        self.epsilon = self.epsilon - self.eps_step \
             if self.epsilon > self.eps_min else self.eps_min
             
     def my_turn(self):
@@ -150,11 +153,11 @@ class DQNAgent(agents.QlearningAgent):
             print("{agent_name} invested in {investment_name}".format(agent_name=self.name, investment_name=action.name))
         nextState = self.get_state()
         self.store_transition(state,reward,action_idx,0.0,nextState)
-        if self.train:
+        if self.train_flag:
             self.learn()
         # soft update the target network
         target_state_dict = self.target_net.state_dict()
-        net_state_dict = self.network.state_dict()
+        net_state_dict = self.policy_network.state_dict()
         for key in net_state_dict:
             target_state_dict[key] = net_state_dict[key] * self.tau + target_state_dict[key] * (1-self.tau)
         self.target_net.load_state_dict(target_state_dict)
@@ -162,12 +165,12 @@ class DQNAgent(agents.QlearningAgent):
     
     def saveWeights(self, filepath):
         if ".pth" in filepath or ".pt" in filepath:
-            T.save(self.network.state_dict(), filepath)
+            T.save(self.policy_network.state_dict(), filepath)
         else:
             print("invalid save path")
             
     def loadWeights(self, filepath):
         if ".pth" in filepath or ".pt" in filepath:
-            self.network.load_state_dict(T.load(filepath))
+            self.policy_network.load_state_dict(T.load(filepath))
         else:
             print("invalid save path")
