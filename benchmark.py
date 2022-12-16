@@ -1,8 +1,8 @@
 '''
 Author: SeekingAspdelus jz332@duke.edu
 Date: 2022-12-10 02:25:59
-LastEditors: SeekingAspdelus jz332@duke.com
-LastEditTime: 2022-12-16 00:02:40
+LastEditors: Tianle Zhu
+LastEditTime: 2022-12-16 20:33:26
 FilePath: \AI_Game_Agent\benchmark.py
 '''
 import time
@@ -56,7 +56,7 @@ def main(args):
 if __name__ == '__main__':
 
     parser = argparse.ArgumentParser(description='Benchmarking script for the Manila')
-    parser.add_argument('--epoch', default=1000, type=int, help='Number of rounds to play')
+    parser.add_argument('--epoch', default=1000, type=int, help='Number of games to play')
     parser.add_argument('--mode', default='Q_learning', type=str, help='What method you want to use (Q_learning, DQN)')
     parser.add_argument('--behavior', default = 'normal', type=str, help='Mode of the agents (normal, conservative, aggressive)')
     parser.add_argument('--verbose', default=False, type=bool, help='Whether to print the game log')

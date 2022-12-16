@@ -2,7 +2,7 @@
 Author: SeekingAspdelus jz332@duke.edu
 Date: 2022-12-10 02:57:03
 LastEditors: Tianle Zhu
-LastEditTime: 2022-12-16 19:07:52
+LastEditTime: 2022-12-16 20:33:40
 FilePath: \AI_Game_Agent\Manila.py
 
 Copyright (c) 2022 by SeekingAspdelus jz332@duke.edu, All Rights Reserved. 
@@ -100,13 +100,12 @@ if __name__ == '__main__':
 
     # Player options
     parser.add_argument('--AI_num', type=int, default=3, help = "number of AI players (0-3)")
-    parser.add_argument('--Factor', type=float, nargs='+', default=[0.5, 1, 1.5], help = "learning factor of AI players")
 
     # Print options
     parser.add_argument('--verbose',  type=bool, default=False, help = "whether to print the game process")
 
     # Game options
-    parser.add_argument('--epoch', type=int, default=100, help = "number of epochs")
+    parser.add_argument('--epoch', type=int, default=100, help = "number of games")
     parser.add_argument('--mode', type = str, default='Q_learning', help = "use what method")
     args = parser.parse_args()
 

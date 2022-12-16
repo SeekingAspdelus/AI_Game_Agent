@@ -1,7 +1,7 @@
 '''
 Author: Tianle Zhu
 Date: 2022-11-20 16:56:22
-LastEditTime: 2022-12-16 18:46:41
+LastEditTime: 2022-12-16 20:28:03
 LastEditors: Tianle Zhu
 FilePath: \AI_Game_Agent\dqn.py
 '''
@@ -83,7 +83,7 @@ class DQNAgent(agents.QlearningAgent):
 
         self.memoryCounter += 1
     
-    def get_available_action(self, observation):
+    def get_available_action(self, currentState):
         # get available actions from environment
         available_action = self.get_action()
         # check if training or testing
@@ -92,7 +92,7 @@ class DQNAgent(agents.QlearningAgent):
         else:
             randomNumber = 1
         if randomNumber >= self.epsilon:
-            state = T.tensor(observation).to(self.policy_network.device)
+            state = T.tensor(currentState).to(self.policy_network.device)
             actions = self.policy_network.forward(state)
             sorted_actions = T.argsort(actions)
             for action_idx in sorted_actions:
